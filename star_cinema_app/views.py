@@ -8,6 +8,7 @@ def home(request):
         cursor.execute("SELECT id, name FROM star_cinema_app_theater")
         theaters = cursor.fetchall()
 
+        # Load movies (filtered by theater)
         if theater_id:
             cursor.execute("""
                 SELECT m.id, m.title, m.genre, m.poster_image, t.name AS theater_name, s.show_time 
@@ -23,11 +24,15 @@ def home(request):
                 JOIN star_cinema_app_show_table s ON m.id = s.movie_id
                 JOIN star_cinema_app_theater t ON t.id = s.theater_id
             """)
-        
         movies = cursor.fetchall()
+
+    # Load Carousel Slides
+    from .models import CarouselSlide
+    slides = CarouselSlide.objects.all()
 
     context = {
         'theaters': theaters,
         'movies': movies,
+        'slides': slides,
     }
     return render(request, 'star_cinema_app/home.html', context)

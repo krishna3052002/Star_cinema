@@ -46,15 +46,20 @@
 </nav>
 
 <!-- Trending Movies Carousel -->
+<!-- Trending Carousel with Separate Images -->
 <section id="trending" class="my-4">
-    <h3 class="text-center">Trending Movies</h3>
-    {% if movies %}
+    <h3 class="text-center">Trending</h3>
     <div id="trendingCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
-            {% for movie in movies %}
+            {% for slide in slides %}
                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                    <!-- ✅ Fixed image path -->
-                    <img src="{% static 'movies/' %}{{ movie.3 }}" class="d-block w-100" alt="{{ movie.1 }}" style="max-height: 500px; object-fit: cover;">
+                    <img src="{{ slide.image.url }}" class="d-block w-100" alt="{{ slide.title }}">
+                    {% if slide.description %}
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>{{ slide.title }}</h5>
+                        <p>{{ slide.description }}</p>
+                    </div>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
@@ -65,12 +70,11 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
         </button>
     </div>
-    {% else %}
-        <p class="text-center">No trending movies available.</p>
-    {% endif %}
 </section>
 
+
 <!-- Movie Cards Section -->
+<h3 class="text-center mt-5">Available Movies</h3>
 <section id="movies" class="my-5">
     <div class="container">
         <div class="row">

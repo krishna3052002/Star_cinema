@@ -27,3 +27,11 @@ class Show_Table(models.Model):
 
     def __str__(self):
         return f"{self.movie.title} at {self.theater.name} on {self.show_date}"
+
+class CarouselSlide(models.Model):
+    title = models.CharField(max_length=255)
+    image = models.ImageField(upload_to='carousel/')
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.title
