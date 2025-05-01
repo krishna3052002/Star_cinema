@@ -1,7 +1,15 @@
 from django.db import connection
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
+from django.shortcuts import redirect
+from .models import CarouselSlide
+from django.db import connection
 
 def home(request):
+    # ✅ Redirect to login if user is not logged in
+    if not request.session.get('user_id'):
+        return redirect('login')
+
     theater_id = request.GET.get('theater_id')
 
     with connection.cursor() as cursor:
@@ -27,7 +35,6 @@ def home(request):
         movies = cursor.fetchall()
 
     # Load Carousel Slides
-    from .models import CarouselSlide
     slides = CarouselSlide.objects.all()
 
     context = {
@@ -58,3 +65,41 @@ def movie_detail(request, movie_id):
         'shows': movie_data
     }
     return render(request, 'star_cinema_app/movie_detail.html', context)
+
+def signup_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        email = request.POST['email']
+        phone = request.POST['phone']
+        password = request.POST['password']
+
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                INSERT INTO star_cinema_app_customer (username, email, phone, password)
+                VALUES (%s, %s, %s, %s)
+            """, [username, email, phone, password])
+
+        return redirect('login')
+    return render(request, 'star_cinema_app/signup.html')
+
+
+def login_view(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT id, username FROM star_cinema_app_customer
+                WHERE email=%s AND password=%s
+            """, [email, password])
+            user = cursor.fetchone()
+
+        if user:
+            request.session['user_id'] = user[0]
+            request.session['username'] = user[1]
+            return redirect('home')
+        else:
+            return render(request, 'login.html', {'error': 'Invalid credentials'})
+
+    return render(request, 'star_cinema_app/login.html')

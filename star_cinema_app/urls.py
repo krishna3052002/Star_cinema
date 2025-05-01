@@ -4,4 +4,6 @@ from . import views  # Import your views
 urlpatterns = [
     path('', views.home, name='home'),  # Home page
     path('movie/<int:movie_id>/', views.movie_detail, name='movie_detail'),
+    path('signup/', views.signup_view, name='signup'),
+    path('login/', views.login_view, name='login'),
 ]

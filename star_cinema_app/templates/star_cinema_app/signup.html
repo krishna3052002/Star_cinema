@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up - Star Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #2e003e, #4b0082);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .signup-container {
+            max-width: 500px;
+            margin: 80px auto;
+            padding: 40px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 16px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .signup-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #ffffff;
+        }
+
+        .form-control {
+            background-color: #2e003e;
+            border: 1px solid #5a189a;
+            color: white;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 5px #7b2cbf;
+            border-color: #7b2cbf;
+        }
+
+        .btn-purple {
+            background: #7b2cbf;
+            border: none;
+            color: white;
+            width: 100%;
+        }
+
+        .btn-purple:hover {
+            background: #9d4edd;
+        }
+
+        a {
+            color: #c77dff;
+        }
+
+        a:hover {
+            color: #e0aaff;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <h2>Create Account</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label>Username</label>
+                <input type="text" name="username" class="form-control" placeholder="Enter username" required>
+            </div>
+            <div class="mb-3">
+                <label>Email</label>
+                <input type="email" name="email" class="form-control" placeholder="Enter email" required>
+            </div>
+            <div class="mb-3">
+                <label>Phone Number</label>
+                <input type="text" name="phone" class="form-control" placeholder="Enter phone" required>
+            </div>
+            <div class="mb-3">
+                <label>Password</label>
+                <input type="password" name="password" class="form-control" placeholder="Enter password" required>
+            </div>
+            <button type="submit" class="btn btn-purple mt-3">Sign Up</button>
+        </form>
+        <p class="text-center mt-3">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </div>
+</body>
+</html>
