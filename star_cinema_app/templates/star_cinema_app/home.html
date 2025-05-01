@@ -31,14 +31,17 @@
             <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
             <li class="nav-item"><a class="nav-link" href="#">Profile</a></li>
         </ul>
-        <form class="d-flex">
-            <select class="form-select" aria-label="Select Theater">
-                <option selected>Select Theater</option>
+        <form class="d-flex" method="get" action="{% url 'home' %}">
+            <select class="form-select me-2" name="theater_id" onchange="this.form.submit()">
+                <option value="">All Theaters</option>
                 {% for theater in theaters %}
-                    <option value="{{ theater.0 }}">{{ theater.1 }}</option>
+                    <option value="{{ theater.0 }}" {% if theater.0|stringformat:"s" == request.GET.theater_id %}selected{% endif %}>
+                        {{ theater.1 }}
+                    </option>
                 {% endfor %}
             </select>
         </form>
+        
     </div>
 </nav>
 
@@ -84,7 +87,8 @@
                         </div>
                     </div>
                 </div>
-            </div>            
+            </div>
+            
             {% empty %}
             <p class="text-center">No movies available.</p>
             {% endfor %}
