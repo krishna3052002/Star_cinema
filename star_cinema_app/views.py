@@ -3,9 +3,11 @@ from django.shortcuts import render
 
 def home(request):
     with connection.cursor() as cursor:
+        # Fetch all theaters
         cursor.execute("SELECT id, name FROM star_cinema_app_theater")
         theaters = cursor.fetchall()
 
+        # Fetch movies with show details
         cursor.execute("""
             SELECT m.id, m.title, m.genre, m.poster_image, t.name AS theater_name, s.show_time 
             FROM star_cinema_app_movie m
@@ -16,6 +18,6 @@ def home(request):
 
     context = {
         'theaters': theaters,
-        'movies': movies
+        'movies': movies,
     }
     return render(request, 'star_cinema_app/home.html', context)
