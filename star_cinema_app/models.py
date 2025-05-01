@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.hashers import make_password
 class Movie(models.Model):
     title = models.CharField(max_length=100)
     genre = models.CharField(max_length=50)
@@ -39,6 +39,15 @@ class CarouselSlide(models.Model):
 # models.py
 class Customer(models.Model):
     username = models.CharField(max_length=100)
-    email = models.EmailField()
-    phone = models.CharField(max_length=15)
+    email = models.EmailField(unique=True)
+    phone_number = models.CharField(max_length=15)
     password = models.CharField(max_length=100)
+
+    def save(self, *args, **kwargs):
+        # Hash the password before saving
+        if self.password:
+            self.password = make_password(self.password)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.username
