@@ -114,13 +114,15 @@
 
 
 <!-- Trending Carousel -->
-<section id="trending" class="my-4" style="background-color: rgb(40, 0, 60);">
-    <h3 class="text-center mb-3">🔥 Trending Movies</h3>
+<!-- Trending Movies Carousel -->
+<!-- Trending Movies Carousel -->
+<section id="trending" class="my-4">
+    <h3 class="text-center text-white mb-3">🔥Trending</h3>
     <div id="trendingCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             {% for slide in slides %}
                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                    <img src="{{ slide.image.url }}" class="d-block w-100" alt="{{ slide.title }}">
+                    <img src="{{ slide.image.url }}" alt="{{ slide.title }}">
                     {% if slide.description %}
                     <div class="carousel-caption d-none d-md-block">
                         <h5>{{ slide.title }}</h5>
@@ -138,6 +140,8 @@
         </button>
     </div>
 </section>
+
+
 
 <!-- Movie Cards Section -->
 <section id="movies" class="my-5">
