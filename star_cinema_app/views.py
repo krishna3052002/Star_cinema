@@ -2,7 +2,7 @@ from django.db import connection
 from django.shortcuts import render, redirect
 from .models import Customer, CarouselSlide
 from django.contrib.auth.hashers import make_password, check_password
-
+from django.contrib.auth import logout
 # Updated home view (manual session check)
 def home(request):
     if not request.session.get('customer_id'):
@@ -38,6 +38,7 @@ def home(request):
         'theaters': theaters,
         'movies': movies,
         'slides': slides,
+        'request': request,
     }
     return render(request, 'star_cinema_app/home.html', context)
 
@@ -109,3 +110,7 @@ def login_view(request):
             return render(request, 'star_cinema_app/login.html', {'error': 'Invalid email or password'})
 
     return render(request, 'star_cinema_app/login.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')

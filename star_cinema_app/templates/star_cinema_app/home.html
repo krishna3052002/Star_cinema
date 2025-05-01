@@ -1,44 +1,57 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Star Cinema</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
     <style>
         body {
             background-color: #121212;
             color: #f1f1f1;
         }
+
         .navbar {
             background-color: #1e1e1e;
         }
+
         .navbar-light .navbar-brand,
         .navbar-light .nav-link,
         .navbar-light .form-control {
             color: #f1f1f1;
         }
+
         .navbar-dark .nav-link {
             color: #f1f1f1 !important;
         }
-        .form-control, .form-select {
+
+        .form-control,
+        .form-select {
             background-color: #2a2a2a;
             color: #f1f1f1;
             border: 1px solid #444;
         }
+
         .form-control::placeholder {
             color: #aaa;
         }
+
         .carousel-inner img {
             height: 400px;
             object-fit: cover;
         }
+
         .carousel-caption {
             background-color: rgba(0, 0, 0, 0.6);
             border-radius: 10px;
         }
+
         .card {
             background-color: #1e1e1e;
             border: none;
@@ -46,81 +59,129 @@
             border-radius: 15px;
             color: #f1f1f1;
         }
+
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
         }
+
         .card-img-top {
             height: 300px;
             object-fit: cover;
             border-top-left-radius: 15px;
             border-top-right-radius: 15px;
         }
+
         footer {
             background-color: #1e1e1e;
         }
+
         .btn-outline-primary {
             color: #00bfff;
             border-color: #00bfff;
         }
+
         .btn-outline-primary:hover {
             background-color: #00bfff;
             color: #000;
         }
+
         .btn-success {
             background-color: #28a745;
             border: none;
         }
+
         .btn-success:hover {
             background-color: #218838;
         }
+
+        .dropdown-menu .dropdown-item {
+            background-color: #1e1e1e;
+            color: #f1f1f1;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #2a2a2a;
+        }
     </style>
 </head>
+
 <body style="background-color: rgb(40, 0, 60); color: white;">
 
 
-<!-- Top Navbar -->
-<nav class="navbar navbar-expand-lg" style="background-color: rgb(10, 25, 47);">
-    <div class="container">
-        <a class="navbar-brand text-white" href="#">🎬 Star Cinema</a>
-        <form class="d-flex ms-auto">
-            <input class="form-control me-2" type="search" placeholder="Search Movies" aria-label="Search">
-            <button class="btn btn-outline-primary" type="submit">Search</button>
-        </form>
-    </div>
-</nav>
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg" style="background-color: rgb(10, 25, 47);">
+        <div class="container">
+            <a class="navbar-brand text-white" href="#">🎬 Star Cinema</a>
+            <form class="d-flex ms-auto">
+                <input class="form-control me-2" type="search" placeholder="Search Movies" aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
 
-<!-- Secondary Navbar -->
-<nav class="navbar navbar-expand-lg" style="background-color: rgb(10, 25, 47);">
-    <div class="container">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item"><a class="nav-link text-white" href="#">Home</a></li>
-            <li class="nav-item"><a class="nav-link text-white" href="#">Showtimes</a></li>
-            <li class="nav-item"><a class="nav-link text-white" href="#">About Us</a></li>
-            <li class="nav-item"><a class="nav-link text-white" href="#">Profile</a></li>
-        </ul>
-        <form class="d-flex" method="get" action="{% url 'home' %}">
-            <select class="form-select me-2" name="theater_id" onchange="this.form.submit()">
-                <option value="">All Theaters</option>
-                {% for theater in theaters %}
-                    <option value="{{ theater.0 }}" {% if theater.0|stringformat:"s" == request.GET.theater_id %}selected{% endif %}>
-                        {{ theater.1 }}
-                    </option>
-                {% endfor %}
-            </select>
-        </form>
-    </div>
-</nav>
+    <!-- Secondary Navbar -->
+    <nav class="navbar navbar-expand-lg" style="background-color: rgb(10, 25, 47);">
+        <div class="container">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link text-white" href="#">Home</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="#">Showtimes</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="#">About Us</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white fw-bold" href="#" id="profileDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        👤 {{ request.session.customer_name|default:"Profile" }}
+
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-lg animate__animated animate__fadeIn"
+                        aria-labelledby="profileDropdown"
+                        style="background-color: rgb(30, 30, 60); border-radius: 12px; overflow: hidden;">
+                        <li>
+                            <a class="dropdown-item text-info fw-bold" href="#">
+                                <i class="bi bi-person-circle me-2"></i> {{ request.session.customer_name }}
+
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item text-white" href="#">
+                                <i class="bi bi-ticket-detailed me-2"></i> Booked Tickets
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider" style="border-color: #555;"></li>
+                        <li>
+                            <a class="dropdown-item text-danger" href="{% url 'logout' %}">
+                                <i class="bi bi-box-arrow-right me-2"></i> Logout
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            
+            </ul>
+            <form class="d-flex" method="get" action="{% url 'home' %}">
+                <select class="form-select me-2" name="theater_id" onchange="this.form.submit()">
+                    <option value="">All Theaters</option>
+                    {% for theater in theaters %}
+                        <option value="{{ theater.0 }}" 
+                            {% if theater.0 == request.GET.theater_id %}selected{% endif %}>
+                            {{ theater.1 }}
+                        </option>
+                    {% endfor %}
+                </select>
+                
+            </form>
+        </div>
+    </nav>
 
 
-<!-- Trending Carousel -->
-<!-- Trending Movies Carousel -->
-<!-- Trending Movies Carousel -->
-<section id="trending" class="my-4">
-    <h3 class="text-center text-white mb-3">🔥Trending</h3>
-    <div id="trendingCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            {% for slide in slides %}
+    <!-- Trending Carousel -->
+    <!-- Trending Movies Carousel -->
+    <!-- Trending Movies Carousel -->
+    <section id="trending" class="my-4">
+        <h3 class="text-center text-white mb-3">🔥Trending</h3>
+        <div id="trendingCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for slide in slides %}
                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
                     <img src="{{ slide.image.url }}" alt="{{ slide.title }}">
                     {% if slide.description %}
@@ -130,53 +191,55 @@
                     </div>
                     {% endif %}
                 </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#trendingCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#trendingCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </button>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#trendingCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#trendingCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        </button>
-    </div>
-</section>
+    </section>
 
 
 
-<!-- Movie Cards Section -->
-<section id="movies" class="my-5">
-    <h3 class="text-center mb-4">🎥 Available Movies</h3>
-    <div class="container">
-        <div class="row">
-            {% for movie in movies %}
-            <div class="col-md-3 mb-4">
-                <div class="card h-100 bg-dark text-white shadow-sm">
-                    <img src="{% static 'movies/' %}{{ movie.3 }}" class="card-img-top" alt="{{ movie.1 }}">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">{{ movie.1 }}</h5>
-                        <p class="card-text">{{ movie.2 }}</p>
-                        <div class="mt-auto d-flex justify-content-between">
-                            <a href="{% url 'movie_detail' movie.0 %}" class="btn btn-outline-primary btn-sm">View Details</a>
-                            <a href="#" class="btn btn-success btn-sm">Book Now</a>
+    <!-- Movie Cards Section -->
+    <section id="movies" class="my-5">
+        <h3 class="text-center mb-4">🎥 Available Movies</h3>
+        <div class="container">
+            <div class="row">
+                {% for movie in movies %}
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 bg-dark text-white shadow-sm">
+                        <img src="{% static 'movies/' %}{{ movie.3 }}" class="card-img-top" alt="{{ movie.1 }}">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ movie.1 }}</h5>
+                            <p class="card-text">{{ movie.2 }}</p>
+                            <div class="mt-auto d-flex justify-content-between">
+                                <a href="{% url 'movie_detail' movie.0 %}" class="btn btn-outline-primary btn-sm">View
+                                    Details</a>
+                                <a href="#" class="btn btn-success btn-sm">Book Now</a>
+                            </div>
                         </div>
                     </div>
                 </div>
+                {% empty %}
+                <p class="text-center">No movies available.</p>
+                {% endfor %}
             </div>
-            {% empty %}
-            <p class="text-center">No movies available.</p>
-            {% endfor %}
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Footer -->
-<footer class="text-white text-center py-3" style="background-color: rgb(10, 25, 47);">
-    <p>&copy; 2025 Star Cinema. All rights reserved.</p>
-</footer>
+    <!-- Footer -->
+    <footer class="text-white text-center py-3" style="background-color: rgb(10, 25, 47);">
+        <p>&copy; 2025 Star Cinema. All rights reserved.</p>
+    </footer>
 
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
+
 </html>
