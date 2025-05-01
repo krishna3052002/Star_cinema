@@ -24,3 +24,10 @@ footer {
     height: 500px;
     object-fit: cover;
 }
+.custom-navbar {
+    background-color: rgb(10, 25, 47) !important;
+}
+.carousel-caption {
+    background-color: rgba(0, 0, 0, 0.5); /* Optional for better readability */
+    border-radius: 8px;
+}

@@ -36,3 +36,25 @@ def home(request):
         'slides': slides,
     }
     return render(request, 'star_cinema_app/home.html', context)
+
+
+# movie details
+def movie_detail(request, movie_id):
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT m.id, m.title, m.genre, m.description, m.poster_image, t.name AS theater_name, s.show_time
+            FROM star_cinema_app_movie m
+            JOIN star_cinema_app_show_table s ON m.id = s.movie_id
+            JOIN star_cinema_app_theater t ON t.id = s.theater_id
+            WHERE m.id = %s
+        """, [movie_id])
+        movie_data = cursor.fetchall()
+
+    if not movie_data:
+        return render(request, 'star_cinema_app/movie_not_found.html')
+
+    context = {
+        'movie': movie_data[0],
+        'shows': movie_data
+    }
+    return render(request, 'star_cinema_app/movie_detail.html', context)
