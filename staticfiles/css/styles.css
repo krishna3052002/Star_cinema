@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    margin-bottom: 20px;
+}
+
+#trending {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+}
+
+#movies .card {
+    margin-bottom: 20px;
+}
+
+footer {
+    background-color: #343a40;
+    color: #efeded;
+    background-color: #ca1f1f;
+}
+.carousel-inner img {
+    height: 550px;
+    object-fit: cover;
+}
+.custom-navbar {
+    background-color: rgb(10, 25, 47) !important;
+}
+.carousel-caption {
+    background-color: rgba(0, 0, 0, 0.5); /* Optional for better readability */
+    border-radius: 8px;
+}
+.carousel-item {
+    height: 100%;
+    position: relative;
+}
+
+.carousel-item img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    filter: brightness(70%);
+}
+
+.carousel-caption {
+    background: linear-gradient(to right, rgba(72, 0, 116, 0.8), rgba(0, 0, 0, 0.6));
+    padding: 20px;
+    border-radius: 12px;
+    backdrop-filter: blur(4px);
+}
+
+.carousel-caption h5,
+.carousel-caption p {
+    color: #fff;
+}
+
+#trending {
+    background: radial-gradient(circle at center, rgba(50, 0, 90, 0.8), rgba(10, 0, 30, 0.9));
+    padding-top: 30px;
+    padding-bottom: 0;
+    border-radius: 10px;
+}
+.carousel-inner {
+    height: 450px; /* total height you want for the image area */
+}
