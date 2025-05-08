@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from .models import Customer, CarouselSlide
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth import logout
+from django.contrib import messages
+from django.conf import settings
 # Updated home view (manual session check)
 def home(request):
     if not request.session.get('customer_id'):
@@ -39,6 +41,7 @@ def home(request):
         'movies': movies,
         'slides': slides,
         'request': request,
+        'MEDIA_URL': settings.MEDIA_URL,
     }
     return render(request, 'star_cinema_app/home.html', context)
 
@@ -114,3 +117,61 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+def book_movie(request, movie_id):
+    with connection.cursor() as cursor:
+        # Fetch movie details including poster image
+        cursor.execute("""
+            SELECT id, title, genre, duration, description, poster_image 
+            FROM star_cinema_app_movie
+            WHERE id = %s
+        """, [movie_id])
+        movie_row = cursor.fetchone()
+
+        if not movie_row:
+            messages.error(request, "Movie not found.")
+            return redirect('home')
+
+        movie = {
+            'id': movie_row[0],
+            'title': movie_row[1],
+            'genre': movie_row[2],
+            'duration': movie_row[3],
+            'description': movie_row[4],
+            'poster_image': movie_row[5],  # Include this
+        }
+
+        # Fetch shows of that movie
+        cursor.execute("""
+            SELECT s.id, t.name, s.show_date, s.show_time, s.available_seats
+            FROM star_cinema_app_show_table s
+            JOIN star_cinema_app_theater t ON s.theater_id = t.id
+            WHERE s.movie_id = %s
+            ORDER BY s.show_date, s.show_time
+        """, [movie_id])
+        shows = cursor.fetchall()
+
+    context = {
+        'movie': movie,
+        'shows': shows
+    }
+
+    return render(request, 'star_cinema_app/book_movie.html', context)
+
+
+def select_seats(request, show_id):
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT s.id, s.seat_number, s.seat_type_id, st.name, st.price
+            FROM seat s
+            JOIN seat_type st ON s.seat_type_id = st.id
+            WHERE s.theater_id = (
+                SELECT theater_id FROM star_cinema_app_show_table WHERE id = %s
+            )
+        """, [show_id])
+        seats = cursor.fetchall()
+
+    return render(request, 'star_cinema_app/select_seats.html', {
+        'show_id': show_id,
+        'seats': seats
+    })
