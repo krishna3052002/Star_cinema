@@ -47,6 +47,10 @@ def home(request):
 
 
 # Movie detail view
+from django.conf import settings
+from django.shortcuts import render
+from django.db import connection
+
 def movie_detail(request, movie_id):
     with connection.cursor() as cursor:
         cursor.execute("""
@@ -61,9 +65,28 @@ def movie_detail(request, movie_id):
     if not movie_data:
         return render(request, 'star_cinema_app/movie_not_found.html')
 
+    # Convert the first tuple into a dictionary
+    movie = {
+        'id': movie_data[0][0],
+        'title': movie_data[0][1],
+        'genre': movie_data[0][2],
+        'description': movie_data[0][3],
+        'poster_image': movie_data[0][4],
+    }
+
+    # Prepare show data
+    shows = [
+        {
+            'theater_name': row[5],
+            'show_time': row[6],
+        }
+        for row in movie_data
+    ]
+
     context = {
-        'movie': movie_data[0],
-        'shows': movie_data
+        'movie': movie,
+        'shows': shows,
+        'MEDIA_URL': settings.MEDIA_URL,
     }
     return render(request, 'star_cinema_app/movie_detail.html', context)
 
@@ -153,7 +176,8 @@ def book_movie(request, movie_id):
 
     context = {
         'movie': movie,
-        'shows': shows
+        'shows': shows,
+        'MEDIA_URL': settings.MEDIA_URL,
     }
 
     return render(request, 'star_cinema_app/book_movie.html', context)

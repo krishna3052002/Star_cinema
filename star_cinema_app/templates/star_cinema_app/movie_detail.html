@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ movie.1 }} | Star Cinema</title>
+    <title>{{ movie.title }} | Star Cinema</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Bootstrap CSS -->
@@ -35,18 +35,18 @@
     <div class="movie-detail-container">
         <div class="row">
             <div class="col-md-4">
-                <img src="{% static 'movies/' %}{{ movie.4 }}" class="img-fluid movie-poster" alt="{{ movie.1 }}">
+                <img src="{{ MEDIA_URL }}{{ movie.poster_image }}" class="img-fluid movie-poster" alt="{{ movie.title }}">
             </div>
             <div class="col-md-8">
-                <h2 class="mb-3">{{ movie.1 }}</h2>
-                <p><strong>Genre:</strong> {{ movie.2 }}</p>
-                <p><strong>Description:</strong> {{ movie.3 }}</p>
+                <h2 class="mb-3">{{ movie.title }}</h2>
+                <p><strong>Genre:</strong> {{ movie.genre }}</p>
+                <p><strong>Description:</strong> {{ movie.description }}</p>
 
                 <h4 class="mt-4">Available Showtimes</h4>
                 <div>
                     {% for show in shows %}
                         <span class="badge bg-primary showtime-badge">
-                            {{ show.5 }} - {{ show.6 }}
+                            {{ show.theater_name }} - {{ show.show_time }}
                         </span>
                     {% empty %}
                         <p>No showtimes available for this movie.</p>
@@ -54,7 +54,7 @@
                 </div>
 
                 <a href="/" class="btn btn-outline-secondary mt-4">← Back to Home</a>
-                <a href="{% url 'book_movie' movie.0 %}" class="btn btn-success btn-sm">Book Now</a>
+                <a href="{% url 'book_movie' movie.id %}" class="btn btn-success btn-sm">Book Now</a>
             </div>
         </div>
     </div>
