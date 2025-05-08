@@ -62,5 +62,6 @@ footer {
     border-radius: 10px;
 }
 .carousel-inner {
-    height: 450px; /* total height you want for the image area */
+    height: 600px; /* total height you want for the image area */
 }
+
