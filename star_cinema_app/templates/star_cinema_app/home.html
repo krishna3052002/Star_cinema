@@ -87,6 +87,14 @@
             animation: fadeInUp 0.8s ease-out;
             margin-bottom: 30px;
             border: 1px solid rgba(255, 255, 255, 0.05);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .movie-card.animate {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
 
         #movies {
@@ -129,6 +137,11 @@
             border-bottom-left-radius: 15px;
             border-bottom-right-radius: 15px;
             padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .movie-card:hover .card-body {
+            background: rgba(40, 40, 40, 0.95);
         }
 
         .movie-card .card-title {
@@ -153,6 +166,11 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
+            transition: all 0.3s ease;
+        }
+
+        .movie-card:hover .card-text {
+            color: var(--text-primary);
         }
 
         .movie-card .card-badge {
@@ -197,7 +215,7 @@
         .movie-card .btn-outline-primary:hover {
             background-color: var(--primary-color);
             color: #000;
-            transform: translateY(-3px);
+            transform: translateY(-3px) scale(1.05);
             box-shadow: 0 5px 15px rgba(0, 191, 255, 0.4);
         }
 
@@ -214,7 +232,7 @@
 
         .movie-card .btn-success:hover {
             background-color: #218838;
-            transform: translateY(-3px);
+            transform: translateY(-3px) scale(1.05);
             box-shadow: 0 7px 20px rgba(40, 167, 69, 0.5);
         }
 
@@ -246,6 +264,14 @@
             position: relative;
             margin-bottom: 2rem;
             text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .section-header.animate {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .section-header h2 {
@@ -270,6 +296,16 @@
             height: 4px;
             background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
             border-radius: 3px;
+            animation: underlineGrow 1s ease-out forwards;
+        }
+
+        @keyframes underlineGrow {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100px;
+            }
         }
 
         .section-header p.subtitle {
@@ -277,6 +313,14 @@
             font-size: 1.1rem;
             max-width: 700px;
             margin: 0 auto;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease 0.3s;
+        }
+
+        .section-header.animate p.subtitle {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* Trending Carousel Enhancements */
@@ -287,6 +331,14 @@
 
         .trending-header {
             margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .trending-header.animate {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .trending-header h2 {
@@ -302,6 +354,14 @@
         .trending-header p {
             color: var(--text-secondary);
             font-size: 1.2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease 0.3s;
+        }
+
+        .trending-header.animate p {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         #trendingCarousel {
@@ -309,6 +369,14 @@
             overflow: hidden;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
             margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease 0.2s;
+        }
+
+        #trendingCarousel.animate {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .carousel-indicators [data-bs-target] {
@@ -335,12 +403,13 @@
             top: 50%;
             transform: translateY(-50%);
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.3s, transform 0.3s;
         }
 
         #trendingCarousel:hover .carousel-control-prev,
         #trendingCarousel:hover .carousel-control-next {
             opacity: 1;
+            transform: translateY(-50%) scale(1.1);
         }
 
         .carousel-caption {
@@ -408,6 +477,14 @@
             position: relative;
             z-index: 3;
             padding: 4rem 0 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        footer.animate {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         footer::before {
@@ -418,6 +495,16 @@
             width: 100%;
             height: 2px;
             background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            animation: footerUnderlineGrow 1s ease-out forwards;
+        }
+
+        @keyframes footerUnderlineGrow {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
         }
 
         footer h5 {
@@ -436,11 +523,31 @@
             width: 50px;
             height: 2px;
             background: var(--secondary-color);
+            transition: all 0.3s;
+        }
+
+        footer h5:hover::after {
+            width: 70px;
         }
 
         footer ul li {
             margin-bottom: 0.8rem;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.5s ease;
         }
+
+        footer.animate ul li {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        footer ul li:nth-child(1) { transition-delay: 0.1s; }
+        footer ul li:nth-child(2) { transition-delay: 0.2s; }
+        footer ul li:nth-child(3) { transition-delay: 0.3s; }
+        footer ul li:nth-child(4) { transition-delay: 0.4s; }
+        footer ul li:nth-child(5) { transition-delay: 0.5s; }
+        footer ul li:nth-child(6) { transition-delay: 0.6s; }
 
         footer ul li a {
             transition: all 0.3s;
@@ -462,12 +569,24 @@
             border-radius: 50%;
             margin-right: 10px;
             transition: all 0.3s;
+            opacity: 0;
+            transform: translateY(10px);
         }
+
+        footer.animate .social-icons a {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .social-icons a:nth-child(1) { transition-delay: 0.2s; }
+        .social-icons a:nth-child(2) { transition-delay: 0.3s; }
+        .social-icons a:nth-child(3) { transition-delay: 0.4s; }
+        .social-icons a:nth-child(4) { transition-delay: 0.5s; }
 
         .social-icons a:hover {
             background: var(--primary-color);
             color: #000 !important;
-            transform: translateY(-5px);
+            transform: translateY(-5px) scale(1.1);
         }
 
         /* Scrollbar Styling */
@@ -482,6 +601,20 @@
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(var(--primary-color), var(--secondary-color));
             border-radius: 10px;
+        }
+
+        /* Floating animation for featured elements */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .floating {
+            animation: float 4s ease-in-out infinite;
         }
 
         /* Mobile Responsive Adjustments */
@@ -547,8 +680,13 @@
                 margin-top: 120px;
             }
             
+            .movie-card {
+                margin-bottom: 25px;
+                width: 100%;
+            }
+            
             .movie-card .card-img-top {
-                height: 260px;
+                height: 400px;
             }
             
             .section-header h2 {
@@ -612,7 +750,7 @@
             }
             
             .movie-card .card-img-top {
-                height: 220px;
+                height: 350px;
             }
             
             .section-header h2 {
@@ -680,7 +818,7 @@
             }
             
             .movie-card .card-img-top {
-                height: 200px;
+                height: 300px;
             }
             
             .section-header h2 {
@@ -809,8 +947,8 @@
         <!-- Trending Movies Carousel - Enhanced Version -->
         <section id="trending">
             <div class="container">
-                <div class="trending-header text-center animate__animated animate__fadeIn">
-                    <h2>Trending Now</h2>
+                <div class="trending-header text-center">
+                    <h2 class="floating">Trending Now</h2>
                     <p>Experience the latest blockbusters on the big screen</p>
                 </div>
 
@@ -832,16 +970,13 @@
                                                 {{ slide.movie_title|default:"Blockbuster Movie" }}
                                             </h3>
                                             <p class="text-white-50 mb-4 animate__animated animate__fadeIn animate__delay-1s">
-                                                {{ slide.movie_description|default:"Experience the cinematic masterpiece
-                                                of the year" }}
+                                                Experience the cinematic masterpiece
+                                                of the year
                                             </p>
                                             <div class="d-flex gap-3 mb-4 animate__animated animate__fadeIn animate__delay-2s">
-                                                <span class="badge bg-danger me-2 p-2">IMDb {{
-                                                    slide.rating|default:"8.5" }}/10</span>
-                                                <span class="badge bg-primary me-2 p-2">{{ slide.genre|default:"Action"
-                                                    }}</span>
-                                                <span class="badge bg-warning text-dark p-2">{{
-                                                    slide.year|default:"2023" }}</span>
+                                                <span class="badge bg-danger me-2 p-2">IMDb 10</span>
+                                                <span class="badge bg-primary me-2 p-2">Action/Thriller</span>
+                                                <span class="badge bg-warning text-dark p-2">Year|2023</span>
                                             </div>
                                             <div class="animate__animated animate__fadeIn animate__delay-3s">
                                                 <a href="#" class="btn btn-danger btn-lg me-3 px-4">
@@ -888,14 +1023,14 @@
         <!-- Enhanced Movie Cards Section -->
         <section id="movies" class="pt-4">
             <div class="container">
-                <div class="section-header animate__animated animate__fadeIn">
+                <div class="section-header">
                     <h2>Now Showing</h2>
                     <p class="subtitle">Book your tickets for these amazing movies</p>
                 </div>
                 <div class="row g-4">
                     {% for movie in movies %}
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                        <div class="movie-card h-100 animate__animated animate__fadeIn"
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                        <div class="movie-card h-100"
                             style="animation-delay: {{ forloop.counter0|divisibleby:4|yesno:'0,0.1,0.2,0.3' }}s">
                             <div class="position-relative overflow-hidden">
                                 <img src="{{ MEDIA_URL }}{{ movie.3 }}" class="card-img-top" alt="{{ movie.1 }}">
@@ -1021,10 +1156,61 @@
             }
         });
 
-        // Movie card hover effects
+        // Initialize animations when elements come into view
         document.addEventListener('DOMContentLoaded', function () {
+            // Animate elements on load
+            const animateElements = function() {
+                // Animate trending section
+                const trendingHeader = document.querySelector('.trending-header');
+                const trendingCarousel = document.getElementById('trendingCarousel');
+                const sectionHeader = document.querySelector('.section-header');
+                const movieCards = document.querySelectorAll('.movie-card');
+                const footer = document.querySelector('footer');
+                
+                // Check if elements are in viewport
+                const isInViewport = function(element) {
+                    const rect = element.getBoundingClientRect();
+                    return (
+                        rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+                        rect.bottom >= 0
+                    );
+                };
+                
+                // Animate trending section
+                if (isInViewport(trendingHeader)) {
+                    trendingHeader.classList.add('animate');
+                }
+                
+                if (isInViewport(trendingCarousel)) {
+                    trendingCarousel.classList.add('animate');
+                }
+                
+                // Animate movies section
+                if (isInViewport(sectionHeader)) {
+                    sectionHeader.classList.add('animate');
+                    
+                    // Animate movie cards with staggered delay
+                    movieCards.forEach((card, index) => {
+                        setTimeout(() => {
+                            card.classList.add('animate');
+                        }, 100 * index);
+                    });
+                }
+                
+                // Animate footer
+                if (isInViewport(footer)) {
+                    footer.classList.add('animate');
+                }
+            };
+            
+            // Run once on page load
+            animateElements();
+            
+            // Run on scroll
+            window.addEventListener('scroll', animateElements);
+            
+            // Movie card hover effects
             const movieCards = document.querySelectorAll('.movie-card');
-
             movieCards.forEach(card => {
                 card.addEventListener('mouseenter', function () {
                     this.style.transform = 'translateY(-10px) scale(1.02)';
@@ -1032,28 +1218,10 @@
                 });
 
                 card.addEventListener('mouseleave', function () {
-                    this.style.transform = '';
-                    this.style.boxShadow = '';
+                    this.style.transform = 'translateY(0) scale(1)';
+                    this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.4)';
                 });
             });
-
-            // Initialize animations when elements come into view
-            const animateOnScroll = function () {
-                const elements = document.querySelectorAll('.animate__animated');
-
-                elements.forEach(element => {
-                    const elementPosition = element.getBoundingClientRect().top;
-                    const windowHeight = window.innerHeight;
-
-                    if (elementPosition < windowHeight - 100) {
-                        const animationClass = element.classList.item(1);
-                        element.classList.add(animationClass);
-                    }
-                });
-            };
-
-            window.addEventListener('scroll', animateOnScroll);
-            animateOnScroll(); // Run once on page load
             
             // Handle mobile dropdowns
             const navToggler = document.querySelector('.navbar-toggler');
@@ -1063,6 +1231,12 @@
                     const targetElement = document.querySelector(target);
                     targetElement.classList.toggle('show');
                 });
+            }
+            
+            // Add floating animation to trending title
+            const trendingTitle = document.querySelector('.trending-header h2');
+            if (trendingTitle) {
+                trendingTitle.classList.add('floating');
             }
         });
     </script>
