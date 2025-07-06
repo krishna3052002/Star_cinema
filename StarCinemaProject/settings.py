@@ -52,16 +52,23 @@ TEMPLATES = [
 WSGI_APPLICATION = 'StarCinemaProject.wsgi.application'
 
 # ✅ DATABASE
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'StarCinema',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
-        'PORT': '3307',
+if os.environ.get('RENDER'):
+    DATABASES = {
+        'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
     }
-}
+else:
+    # For local development (keep your MySQL if needed)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'StarCinema',
+            'USER': 'root',
+            'PASSWORD': '',
+            'HOST': '127.0.0.1',
+            'PORT': '3307',
+        }
+    }
+
 
 # If using DATABASE_URL from environment (optional)
 # DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=False)
