@@ -1,55 +1,1027 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Book Show - {{ movie.title }}</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-</head>
-<body style="background-color: #121212; color: white;">
-    <div class="container py-5">
+<html lang="en">
 
-        <!-- Movie Details Section -->
-        <div class="row mb-4">
-            <div class="col-md-4">
-                <img src="{{ MEDIA_URL }}{{ movie.poster_image }}" alt="{{ movie.title }}" class="img-fluid rounded">
+<head>
+    <title>Book Tickets - {{ movie.title }} | Star Cinema</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        :root {
+            --primary: #00bfff;
+            --secondary: #ff00ff;
+            --accent: #ff6b35;
+            --dark: #0a0a0a;
+            --dark-light: #1a1a1a;
+            --dark-card: #1e1e1e;
+            --text: #ffffff;
+            --text-light: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --gradient-primary: linear-gradient(135deg, #00bfff, #0099cc);
+            --gradient-secondary: linear-gradient(135deg, #ff00ff, #cc00cc);
+            --gradient-accent: linear-gradient(135deg, #ff6b35, #ff4500);
+            --gradient-main: linear-gradient(135deg, #00bfff 0%, #ff00ff 50%, #ff6b35 100%);
+
+            --primary-color: #00bfff;
+            --secondary-color: #ff00ff;
+            --dark-bg: #121212;
+            --card-bg: #1e1e1e;
+            --text-primary: #f1f1f1;
+            --text-secondary: #aaa;
+            --dark-blue: #302454;
+            --right-color: #ac0ef0;
+            --left-color: #7025bcd7;
+        }
+
+        /* Updated Navbar with Collapse */
+        .navbar {
+            background: linear-gradient(to right, var(--left-color), var(--right-color)) !important;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            height: 3.5rem;
+
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-brand i {
+            margin-right: 8px;
+        }
+
+        .navbar-toggler {
+            border: none;
+            padding: 0.5rem;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        .navbar-collapse {
+            justify-content: flex-end;
+        }
+
+        .nav-link {
+            color: white !important;
+            padding: 0.5rem 1rem !important;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--dark);
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            padding-top: 80px;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(0, 191, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 60% 40%, rgba(255, 107, 53, 0.1) 0%, transparent 50%);
+            z-index: -2;
+            animation: backgroundShift 20s ease-in-out infinite;
+        }
+
+        @keyframes backgroundShift {
+
+            0%,
+            100% {
+                transform: translateX(0) translateY(0);
+            }
+
+            25% {
+                transform: translateX(-20px) translateY(-10px);
+            }
+
+            50% {
+                transform: translateX(20px) translateY(10px);
+            }
+
+            75% {
+                transform: translateX(-10px) translateY(20px);
+            }
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: float 8s linear infinite;
+            opacity: 0.3;
+        }
+
+        .particle:nth-child(2n) {
+            background: var(--secondary);
+            animation-duration: 10s;
+        }
+
+        .particle:nth-child(3n) {
+            background: var(--accent);
+            animation-duration: 12s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.3;
+            }
+
+            90% {
+                opacity: 0.3;
+            }
+
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            padding-top: 5px;
+
+
+        }
+
+        .navbar-collapse {
+            background: linear-gradient(to right, var(--left-color), var(--right-color)) !important;
+        }
+
+        /* Enhanced Movie Card */
+        .movie-card {
+            background: rgba(30, 30, 30, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            position: relative;
+            margin: 10px 0;
+            padding: 1.5rem;
+        }
+
+        .movie-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-main);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 191, 255, 0.2),
+                0 0 0 1px rgba(0, 191, 255, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .movie-card:hover::before {
+            opacity: 0.1;
+        }
+
+        /* Enhanced Movie Poster */
+        .movie-poster {
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            aspect-ratio: 2/3;
+            object-fit: cover;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            max-width: 250px;
+            margin: 0 auto 20px;
+        }
+
+        .movie-poster::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .movie-poster:hover {
+            transform: scale(1.05) rotateY(5deg);
+            box-shadow: 0 20px 40px rgba(0, 191, 255, 0.3),
+                0 0 0 1px rgba(0, 191, 255, 0.2);
+        }
+
+        .movie-poster:hover::after {
+            transform: translateX(100%);
+        }
+
+        /* Enhanced Typography */
+        h2 {
+            color: var(--text);
+            font-weight: 700;
+            font-size: 1.8rem;
+            position: relative;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes textGlow {
+            0% {
+                filter: brightness(1);
+            }
+
+            100% {
+                filter: brightness(1.2);
+            }
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--gradient-main);
+            border-radius: 2px;
+            animation: lineGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes lineGlow {
+            0% {
+                width: 60px;
+            }
+
+            100% {
+                width: 90px;
+            }
+        }
+
+        h4 {
+            color: var(--text);
+            font-weight: 600;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        h4::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        /* Enhanced Info Styling */
+        .info-icon {
+            color: var(--primary);
+            margin-right: 10px;
+            width: 20px;
+            font-size: 1rem;
+            animation: iconPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes iconPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .movie-info p {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .movie-info p:hover {
+            background: rgba(0, 191, 255, 0.05);
+            padding-left: 10px;
+            transform: translateX(3px);
+        }
+
+        /* Enhanced Showtime Table */
+        .showtime-table {
+            background: rgba(30, 30, 30, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            position: relative;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        .showtime-table::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-main);
+            z-index: 1;
+        }
+
+        .showtime-table thead {
+            background: var(--gradient-main);
+            color: white;
+            position: relative;
+        }
+
+        .showtime-table thead::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .showtime-table th {
+            border: none;
+            font-weight: 600;
+            letter-spacing: 1px;
+            padding: 15px 10px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .showtime-table th i {
+            margin-right: 6px;
+            font-size: 0.9rem;
+        }
+
+        .showtime-table td {
+            border-color: rgba(255, 255, 255, 0.1);
+            vertical-align: middle;
+            padding: 12px 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .showtime-table tbody tr {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .showtime-table tbody tr:hover {
+            background: rgba(0, 191, 255, 0.05);
+            transform: scale(1.01);
+            box-shadow: 0 5px 15px rgba(0, 191, 255, 0.1);
+        }
+
+        /* Enhanced Buttons */
+        .btn-select {
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 20px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 15px rgba(0, 191, 255, 0.3);
+            padding: 8px 15px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-select::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-select:hover::before {
+            left: 100%;
+        }
+
+        .btn-select:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 191, 255, 0.4);
+            background: var(--gradient-secondary);
+        }
+
+        .btn-select:active {
+            transform: translateY(-1px) scale(1.02);
+        }
+
+        /* Enhanced Badges */
+        .badge {
+            font-size: 0.75rem;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            animation: badgePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes badgePulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .bg-success {
+            background: var(--gradient-primary) !important;
+            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
+        }
+
+        .bg-danger {
+            background: var(--gradient-accent) !important;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Enhanced Modal */
+        .modal-content {
+            background: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+        }
+
+        .modal-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-main);
+            z-index: 1;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-title {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .btn-close-white {
+            filter: invert(1);
+            transition: all 0.3s ease;
+        }
+
+        .btn-close-white:hover {
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        /* Loading Spinner Enhancement */
+        .spinner-border {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-width: 0.25em;
+            animation: spinnerGlow 1.5s linear infinite;
+        }
+
+        @keyframes spinnerGlow {
+            0% {
+                border-top-color: var(--primary);
+            }
+
+            33% {
+                border-top-color: var(--secondary);
+            }
+
+            66% {
+                border-top-color: var(--accent);
+            }
+
+            100% {
+                border-top-color: var(--primary);
+            }
+        }
+
+        /* Enhanced Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Tablet and larger screens */
+        @media (min-width: 768px) {
+            body {
+                padding-top: 90px;
+            }
+
+            .movie-card {
+                padding: 2rem;
+                border-radius: 20px;
+                margin: 15px;
+            }
+
+            h2 {
+                font-size: 2.2rem;
+                margin-bottom: 25px;
+            }
+
+            h2::after {
+                width: 80px;
+                height: 4px;
+            }
+
+            h4 {
+                font-size: 1.7rem;
+                margin-bottom: 25px;
+            }
+
+            .movie-info p {
+                font-size: 1rem;
+                padding: 12px 0;
+            }
+
+            .showtime-table {
+                border-radius: 20px;
+                margin: 15px;
+            }
+
+            .showtime-table th {
+                padding: 18px 15px;
+                font-size: 0.9rem;
+            }
+
+            .showtime-table td {
+                padding: 15px;
+                font-size: 0.95rem;
+            }
+
+            .btn-select {
+                padding: 10px 20px;
+                font-size: 0.85rem;
+            }
+
+            .badge {
+                font-size: 0.8rem;
+                padding: 8px 15px;
+            }
+        }
+
+        /* Desktop screens */
+        @media (min-width: 992px) {
+            body {
+                padding-top: 100px;
+            }
+
+            .movie-card {
+                padding: 3rem;
+                border-radius: 25px;
+            }
+
+            h2 {
+                font-size: 2.5rem;
+                margin-bottom: 30px;
+            }
+
+            h4 {
+                font-size: 1.8rem;
+                margin-bottom: 30px;
+            }
+
+            .movie-info p {
+                font-size: 1.1rem;
+                padding: 15px 0;
+            }
+
+            .showtime-table th {
+                padding: 20px 15px;
+            }
+
+            .showtime-table td {
+                padding: 20px 15px;
+            }
+
+            .btn-select {
+                padding: 12px 25px;
+                font-size: 0.9rem;
+            }
+
+            .movie-card:hover {
+                transform: translateY(-10px) scale(1.02);
+            }
+
+            .showtime-table tbody tr:hover {
+                transform: scale(1.01);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Updated Navbar with Collapse -->
+    <nav class="navbar navbar-expand-lg fixed-top" style="background-color: rgba(10, 25, 47, 0.95);"
+        id="secondaryNavbar">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <i class="bi bi-camera-reels"></i> Star Cinema
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'home' %}">
+                            <i class="bi bi-house-door me-1"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'showtimes' %}">
+                            <i class="bi bi-calendar3 me-1"></i> Showtimes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}">
+                            <i class="bi bi-info-circle me-1"></i> About Us
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold" href="{% url 'booked_tickets' %}">
+                            <i class="bi bi-ticket-detailed me-1"></i> My Tickets
+                        </a>
+                    </li>
+                </ul>
             </div>
-            <div class="col-md-8">
-                <h2>{{ movie.title }}</h2>
-                <p><strong>Genre:</strong> {{ movie.genre }}</p>
-                <p><strong>Duration:</strong> {{ movie.duration }} minutes</p>
-                <p>{{ movie.description }}</p>
+        </div>
+    </nav>
+    <!-- Floating Particles -->
+    <div class="particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 6s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 7s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 8s;"></div>
+    </div>
+
+    <div class="container py-4">
+        <!-- Movie Details Section -->
+        <div class="movie-card animate__animated animate__fadeIn animate-on-scroll">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-5">
+                    <div class="text-center">
+                        <img src="{{ MEDIA_URL }}{{ movie.poster_image }}" alt="{{ movie.title }}"
+                            class="movie-poster animate__animated animate__zoomIn">
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-7 mt-4 mt-md-0">
+                    <div class="movie-info">
+                        <h2 class="animate__animated animate__fadeIn">{{ movie.title }}</h2>
+
+                        <p class="animate__animated animate__fadeIn" style="animation-delay: 0.1s;">
+                            <i class="fas fa-film info-icon"></i>
+                            <strong>Genre:</strong> <span class="text-light">{{ movie.genre }}</span>
+                        </p>
+
+                        <p class="animate__animated animate__fadeIn" style="animation-delay: 0.2s;">
+                            <i class="fas fa-clock info-icon"></i>
+                            <strong>Duration:</strong> <span class="text-light">{{ movie.duration }} minutes</span>
+                        </p>
+
+                        <p class="animate__animated animate__fadeIn" style="animation-delay: 0.3s;">
+                            <i class="fas fa-align-left info-icon"></i>
+                            <strong>Description:</strong>
+                        </p>
+                        <p class="animate__animated animate__fadeIn text-light"
+                            style="animation-delay: 0.4s; line-height: 1.6;">
+                            {{ movie.description }}
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Shows Table -->
-        <h4 class="mt-4">Available Theaters and Showtimes:</h4>
-        <table class="table table-dark table-striped mt-3">
-            <thead>
-                <tr>
-                    <th>Theater</th>
-                    <th>Show Date</th>
-                    <th>Show Time</th>
-                    <th>Available Seats</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for show in shows %}
-                <tr>
-                    <td>{{ show.1 }}</td>
-                    <td>{{ show.2 }}</td>
-                    <td>{{ show.3 }}</td>
-                    <td>{{ show.4 }}</td>
-                    <td><a href="{% url 'select_seats' show.0 %}" class="btn btn-success btn-sm">Select Seats</a></td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="5">No shows available for this movie.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <h4 class="mt-4 mb-3 animate__animated animate__fadeIn animate-on-scroll">
+            <i class="fas fa-calendar-alt me-2"></i>Available Theaters and Showtimes
+        </h4>
+
+        <div class="showtime-table animate__animated animate__fadeInUp animate-on-scroll">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-theater-masks me-1"></i>Theater</th>
+                            <th><i class="far fa-calendar-alt me-1"></i>Date</th>
+                            <th><i class="far fa-clock me-1"></i>Time</th>
+                            <th><i class="fas fa-chair me-1"></i>Seats</th>
+                            <th class="text-center"><i class="fas fa-ticket-alt me-1"></i>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for show in shows %}
+                        <tr class="animate__animated animate__fadeIn"
+                            style="animation-delay: {{ forloop.counter0|divisibleby:2|yesno:'0.1s,0.2s' }};">
+                            <td class="fw-semibold">{{ show.1 }}</td>
+                            <td>{{ show.2 }}</td>
+                            <td class="fw-semibold">{{ show.3 }}</td>
+                            <td>
+                                {% if show.4 > 0 %}
+                                <span class="badge bg-success">
+                                    <i class="fas fa-check me-1"></i>{{ show.4 }} available
+                                </span>
+                                {% else %}
+                                <span class="badge bg-danger">
+                                    <i class="fas fa-times me-1"></i>Sold out
+                                </span>
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                {% if show.4 > 0 %}
+                                <a href="{% url 'book_ticket' show.0 %}" class="btn btn-select">
+                                    <i class="fas fa-ticket-alt me-1"></i>Select Seats
+                                </a>
+                                {% else %}
+                                <button class="btn btn-secondary" disabled
+                                    style="border-radius: 20px; padding: 8px 15px;">
+                                    <i class="fas fa-times me-1"></i>Sold Out
+                                </button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr class="animate__animated animate__fadeIn">
+                            <td colspan="5" class="text-center py-4">
+                                <div class="text-muted">
+                                    <i class="fas fa-exclamation-circle me-2 fa-2x"></i>
+                                    <h5 class="mt-3">No shows available for this movie.</h5>
+                                    <p>Please check back later for updated showtimes.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Seat Selection Modal -->
+        <div class="modal fade" id="seatModal" tabindex="-1" aria-labelledby="seatModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="seatModalLabel">
+                            <i class="fas fa-chair me-2"></i>Select Your Seats
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-3">
+                        <div id="seat-content">
+                            <div class="text-center py-4">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-3 text-light">Loading seat layout...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Enhanced Scripts -->
+    <script>
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Dynamic particle creation
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 5 + 6) + 's';
+            particle.style.animationDelay = Math.random() * 2 + 's';
+
+            const colors = ['var(--primary)', 'var(--secondary)', 'var(--accent)'];
+            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+            document.querySelector('.particles').appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 10000);
+        }
+
+        // Create particles periodically
+        setInterval(createParticle, 2000);
+
+        // Enhanced table row animations
+        document.querySelectorAll('.showtime-table tbody tr').forEach((row, index) => {
+            row.addEventListener('mouseenter', function () {
+                this.style.animationDelay = '0s';
+                this.classList.add('animate__pulse');
+            });
+
+            row.addEventListener('mouseleave', function () {
+                this.classList.remove('animate__pulse');
+            });
+        });
+
+        // Modal AJAX Loader Script with enhanced effects
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = document.getElementById('seatModal');
+            modal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                const showId = button.getAttribute('data-show-id');
+
+                // Reset modal content with enhanced loading
+                document.getElementById('seat-content').innerHTML = `
+                <div class="text-center py-4">
+                    <div class="spinner-border text-primary" role="status" style="width: 2.5rem; height: 2.5rem;">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-3 text-light">Loading seat layout...</p>
+                    <div class="progress mt-3" style="height: 3px;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 0%; animation: progressLoad 2s ease-in-out;"></div>
+                    </div>
+                </div>
+            `;
+
+                // Load seat layout for the show via AJAX
+                fetch(`/get_seat_layout/${showId}/`)
+                    .then(response => response.text())
+                    .then(html => {
+                        setTimeout(() => {
+                            document.getElementById('seat-content').innerHTML = html;
+                        }, 1000); // Add slight delay for better UX
+                    })
+                    .catch(error => {
+                        document.getElementById('seat-content').innerHTML = `
+                        <div class="alert alert-danger" style="background: rgba(255, 107, 53, 0.1); border: 1px solid rgba(255, 107, 53, 0.3); border-radius: 15px;">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>Error loading seat layout.</strong> Please try again.
+                        </div>
+                    `;
+                    });
+            });
+        });
+
+        // Add progress bar animation
+        const style = document.createElement('style');
+        style.textContent = `
+        @keyframes progressLoad {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 100%; }
+        }
+    `;
+        document.head.appendChild(style);
+    </script>
 </body>
+
 </html>

@@ -1,0 +1,11 @@
+{% extends 'star_cinema_app/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-success">Booking Confirmed!</h2>
+    <p>Your booking was successful.</p>
+    <p><strong>Show:</strong> {{ show.movie.title }} at {{ show.theater.name }} on {{ show.show_date }} {{ show.show_time }}</p>
+    <p><strong>Seats:</strong> {{ seats|join:", " }}</p>
+    <a href="{% url 'home' %}" class="btn btn-primary mt-3">Back to Home</a>
+</div>
+{% endblock %}

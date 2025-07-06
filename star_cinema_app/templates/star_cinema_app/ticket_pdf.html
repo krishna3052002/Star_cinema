@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body { 
+            font-family: 'Arial', sans-serif;
+            background: white;
+            padding: 20px;
+            line-height: 1.4;
+            color: #333;
+        }
+        
+        .ticket-container {
+            max-width: 210mm;
+            width: 100%;
+            margin: 0 auto;
+            background: white;
+            border: 2px solid #000;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .ticket-header {
+            background: #000;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #000;
+        }
+        
+        .cinema-logo {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+        }
+        
+        .ticket-subtitle {
+            font-size: 14px;
+            letter-spacing: 3px;
+            font-weight: normal;
+        }
+        
+        .ticket-body {
+            padding: 25px;
+            background: white;
+        }
+        
+        .movie-title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 2px solid #000;
+            background: #f5f5f5;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .ticket-details {
+            width: 100%;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-collapse: collapse;
+        }
+        
+        .detail-row {
+            display: block;
+            border-bottom: 1px solid #ddd;
+            min-height: 40px;
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            display: inline-block;
+            padding: 12px 15px;
+            font-weight: bold;
+            width: 30%;
+            background: #f8f8f8;
+            border-right: 1px solid #ddd;
+            vertical-align: top;
+            float: left;
+            box-sizing: border-box;
+        }
+        
+        .detail-value {
+            display: inline-block;
+            padding: 12px 15px;
+            vertical-align: top;
+            width: 70%;
+            box-sizing: border-box;
+            float: left;
+        }
+        
+        .seats-section {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            background: #f9f9f9;
+        }
+        
+        .seats-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #000;
+        }
+        
+        .seats-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .seat-item {
+            display: inline-block;
+            background: #000;
+            color: white;
+            padding: 8px 12px;
+            margin: 3px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .pricing-section {
+            border: 2px solid #000;
+            padding: 15px;
+            background: #f5f5f5;
+            margin-bottom: 20px;
+        }
+        
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .pricing-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #ccc;
+        }
+        
+        .pricing-table td:first-child {
+            font-weight: bold;
+        }
+        
+        .pricing-table td:last-child {
+            text-align: right;
+        }
+        
+        .total-row {
+            border-top: 2px solid #000 !important;
+            font-weight: bold;
+            font-size: 16px;
+            background: #e8e8e8;
+        }
+        
+        .total-amount {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .perforated-line {
+            height: 20px;
+            background-image: repeating-linear-gradient(
+                to right,
+                #000 0px,
+                #000 8px,
+                transparent 8px,
+                transparent 16px
+            );
+            margin: 20px 0;
+        }
+        
+        .instructions {
+            background: #000;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-top: 2px solid #000;
+        }
+        
+        .instructions-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .instructions-text {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .ticket-footer {
+            text-align: center;
+            padding: 15px;
+            background: #f8f8f8;
+            font-size: 14px;
+            border-top: 1px solid #ddd;
+            font-style: italic;
+        }
+        
+        .ticket-id {
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 15px;
+            padding: 8px;
+            border: 1px dashed #999;
+            background: #f9f9f9;
+        }
+        
+        /* Print-specific styles */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+                background: white;
+            }
+            
+            .ticket-container {
+                box-shadow: none;
+                border: 2px solid #000;
+                page-break-inside: avoid;
+            }
+            
+            @page {
+                margin: 10mm;
+                size: A4;
+            }
+        }
+        
+        /* Ensure consistent spacing and alignment */
+        .ticket-container * {
+            -webkit-print-color-adjust: exact;
+            color-adjust: exact;
+        }
+        
+        .no-break {
+            page-break-inside: avoid;
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket-container">
+        <div class="ticket-header">
+            <div class="cinema-logo">STAR CINEMA</div>
+            <div class="ticket-subtitle">MOVIE TICKET</div>
+        </div>
+        
+        <div class="ticket-body">
+            <div class="movie-title">{{ show.movie.title }}</div>
+            
+            <div class="ticket-id">
+                <strong>Ticket ID:</strong> #SC{{ show.id }}{{ customer.id }}
+            </div>
+            
+            <div class="ticket-details">
+                <div class="detail-row">
+                    <div class="detail-label">Customer Name:</div>
+                    <div class="detail-value">{{ customer.username }}</div>
+                    <div style="clear: both;"></div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Theater:</div>
+                    <div class="detail-value">{{ show.theater.name }}</div>
+                    <div style="clear: both;"></div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Show Date:</div>
+                    <div class="detail-value">{{ show.show_date }}</div>
+                    <div style="clear: both;"></div>
+                </div>
+                
+                <div class="detail-row">
+                    <div class="detail-label">Show Time:</div>
+                    <div class="detail-value">{{ show.show_time }}</div>
+                    <div style="clear: both;"></div>
+                </div>
+            </div>
+            
+            <div class="seats-section no-break">
+                <div class="seats-title">Booked Seats:</div>
+                <ul class="seats-list">
+                    {% for seat in seats %}
+                        <li class="seat-item">{{ seat.seat_number }} ({{ seat.seat_type.name }})</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <div class="pricing-section no-break">
+                <table class="pricing-table">
+                    <tr>
+                        <td>Total Seats:</td>
+                        <td>{{ seats|length }}</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td>Total Amount:</td>
+                        <td class="total-amount">{{ total_price }} ৳</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div class="perforated-line"></div>
+        
+        <div class="instructions no-break">
+            <div class="instructions-title">IMPORTANT INSTRUCTIONS</div>
+            <div class="instructions-text">
+                Please present this ticket at the counter for verification before entering the theater.<br>
+                Arrive 15 minutes before showtime for smooth entry.<br>
+                No outside food or beverages allowed inside the theater.<br>
+                Keep this ticket with you during the entire show.
+            </div>
+        </div>
+        
+        <div class="ticket-footer">
+            Thank you for choosing Star Cinema! Enjoy your movie experience!
+        </div>
+    </div>
+</body>
+</html>

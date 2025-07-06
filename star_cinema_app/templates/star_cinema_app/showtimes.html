@@ -1,0 +1,716 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Showtimes - Star Cinema</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        :root{
+             --primary-color: #00bfff;
+            --secondary-color: #ff00ff;
+            --dark-bg: #121212;
+            --card-bg: #1e1e1e;
+            --text-primary: #f1f1f1;
+            --text-secondary: #aaa;
+            --dark-blue: #302454;
+            --right-color: #ac0ef0;
+            --left-color: #7025bcd7;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            padding-top: 80px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%);
+            z-index: -1;
+            animation: backgroundShift 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes backgroundShift {
+            0% {
+                transform: translateX(-10px) translateY(-5px);
+            }
+
+            100% {
+                transform: translateX(10px) translateY(5px);
+            }
+        }
+        
+        /* Updated Navbar Styles */
+        .navbar {
+            background: linear-gradient(to right, var(--left-color), var(--right-color));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+        }
+        
+        .navbar-brand {
+            color: white !important;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-brand i {
+            margin-right: 8px;
+        }
+        
+        .navbar-toggler {
+            border: none;
+            padding: 0.5rem;
+        }
+        
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+        
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        
+        .navbar-collapse {
+            justify-content: flex-end;
+        }
+        
+        .nav-link {
+            color: white !important;
+            padding: 0.5rem 1rem !important;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            transform: translateY(-2px);
+        }
+        
+        .nav-link.active {
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .container {
+            max-width: 1400px;
+            width: 95%;
+            position: relative;
+            z-index: 1;
+            padding: 0 15px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            padding: 0 10px;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+            animation: titleGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% {
+                filter: drop-shadow(0 0 10px rgba(102, 126, 234, 0.5));
+            }
+
+            100% {
+                filter: drop-shadow(0 0 20px rgba(118, 75, 162, 0.8));
+            }
+        }
+
+        .page-subtitle {
+            font-size: 1rem;
+            color: #a0a0a0;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .decorative-line {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            margin: 0 auto;
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .decorative-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        .showtimes-grid {
+            display: grid;
+            gap: 20px;
+            animation: gridFadeIn 0.8s ease-out;
+        }
+
+        @keyframes gridFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .showtime-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: cardSlideIn 0.6s ease-out;
+            animation-fill-mode: both;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .showtime-card:nth-child(odd) {
+            animation-delay: 0.1s;
+        }
+
+        .showtime-card:nth-child(even) {
+            animation-delay: 0.2s;
+        }
+
+        @keyframes cardSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px) rotateY(-10deg);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0) rotateY(0);
+            }
+        }
+
+        .showtime-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .showtime-card:hover::before {
+            left: 100%;
+        }
+
+        .showtime-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow:
+                0 15px 30px rgba(0, 0, 0, 0.3),
+                0 0 25px rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .showtime-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .poster-container {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .poster-img {
+            height: 160px;
+            width: 110px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow:
+                0 6px 20px rgba(0, 0, 0, 0.4),
+                0 0 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .showtime-card:hover .poster-img {
+            transform: scale(1.05) rotateY(5deg);
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.5),
+                0 0 25px rgba(102, 126, 234, 0.5);
+        }
+
+        .movie-details {
+            flex: 1;
+            min-width: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .movie-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .detail-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .detail-icon {
+            width: 18px;
+            margin-right: 10px;
+            color: #667eea;
+            font-size: 1rem;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            color: #b0b0b0;
+            margin-right: 6px;
+            min-width: 50px;
+        }
+
+        .detail-value {
+            color: #ffffff;
+            font-weight: 400;
+        }
+
+        .time-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            animation: timePulse 2s ease-in-out infinite;
+            margin-top: 5px;
+        }
+
+        @keyframes timePulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .no-show-container {
+            text-align: center;
+            padding: 50px 15px;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .no-show-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 20px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .no-show-message {
+            font-size: 1.1rem;
+            color: #a0a0a0;
+            font-weight: 300;
+            line-height: 1.5;
+        }
+
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(102, 126, 234, 0.6);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0;
+            }
+
+            50% {
+                transform: translateY(-80px) rotate(180deg);
+                opacity: 1;
+            }
+        }
+
+        /* Tablet and larger screens */
+        @media (min-width: 768px) {
+            body {
+                padding-top: 100px;
+            }
+
+            .page-title {
+                font-size: 3rem;
+            }
+
+            .page-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .showtime-content {
+                flex-direction: row;
+                text-align: left;
+                gap: 25px;
+            }
+
+            .movie-details {
+                text-align: left;
+            }
+
+            .detail-row {
+                justify-content: flex-start;
+            }
+
+            .poster-img {
+                height: 140px;
+                width: 95px;
+            }
+
+            .showtime-card {
+                padding: 25px;
+                border-radius: 20px;
+                max-width: none;
+            }
+
+            .movie-title {
+                font-size: 1.5rem;
+            }
+
+            .detail-row {
+                font-size: 1rem;
+            }
+
+            .time-badge {
+                padding: 8px 16px;
+                font-size: 0.95rem;
+            }
+
+            .no-show-icon {
+                font-size: 4rem;
+            }
+
+            .no-show-message {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Desktop screens */
+        @media (min-width: 992px) {
+            body {
+                padding-top: 120px;
+            }
+
+            .page-title {
+                font-size: 3.5rem;
+            }
+
+            .page-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .showtimes-grid {
+                gap: 30px;
+            }
+
+            .showtime-card:hover {
+                transform: translateY(-8px) scale(1.02);
+            }
+
+            .poster-img {
+                height: 160px;
+                width: 110px;
+            }
+
+            .particle {
+                width: 4px;
+                height: 4px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Updated Navbar with Collapse Functionality -->
+    <nav class="navbar navbar-expand-lg fixed-top" style="background-color: rgba(10, 25, 47, 0.95);" id="secondaryNavbar">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <i class="bi bi-camera-reels"></i> Star Cinema
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" 
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'home' %}">
+                            <i class="bi bi-house-door me-1"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'showtimes' %}">
+                            <i class="bi bi-calendar3 me-1"></i> Showtimes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}">
+                            <i class="bi bi-info-circle me-1"></i> About Us
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold" href="{% url 'booked_tickets' %}">
+                            <i class="bi bi-ticket-detailed me-1"></i> My Tickets
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="floating-particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 1.5s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 3.5s;"></div>
+    </div>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">
+                <i class="fas fa-film" style="margin-right: 15px;"></i>
+                Showtimes
+            </h1>
+            <p class="page-subtitle">Discover your next cinematic adventure</p>
+            <div class="decorative-line"></div>
+        </div>
+
+        {% if showtimes %}
+        <div class="showtimes-grid">
+            {% for poster, title, theater, date, time in showtimes %}
+            <div class="showtime-card">
+                <div class="showtime-content">
+                    <div class="poster-container">
+                        <img src="{{ MEDIA_URL }}{{ poster }}" alt="{{ title }}" class="poster-img">
+                    </div>
+
+                    <div class="movie-details">
+                        <h3 class="movie-title">{{ title }}</h3>
+
+                        <div class="detail-row">
+                            <i class="fas fa-map-marker-alt detail-icon"></i>
+                            <span class="detail-label">Theater:</span>
+                            <span class="detail-value">{{ theater }}</span>
+                        </div>
+
+                        <div class="detail-row">
+                            <i class="fas fa-calendar-alt detail-icon"></i>
+                            <span class="detail-label">Date:</span>
+                            <span class="detail-value">{{ date }}</span>
+                        </div>
+
+                        <div class="detail-row">
+                            <i class="fas fa-clock detail-icon"></i>
+                            <span class="detail-label">Time:</span>
+                            <span class="detail-value">
+                                <span class="time-badge">{{ time }}</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-show-container">
+            <div class="no-show-icon">
+                <i class="fas fa-film"></i>
+            </div>
+            <div class="no-show-message">
+                No showtimes available at the moment.<br>
+                Check back soon for exciting new screenings!
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Add some interactive particles on mouse move
+        document.addEventListener('mousemove', function (e) {
+            if (Math.random() > 0.95) {
+                createTrailParticle(e.clientX, e.clientY);
+            }
+        });
+
+        function createTrailParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.style.cssText = `
+                position: fixed;
+                left: ${x}px;
+                top: ${y}px;
+                width: 6px;
+                height: 6px;
+                background: rgba(102, 126, 234, 0.8);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 1000;
+                animation: trailFade 1s ease-out forwards;
+            `;
+
+            document.body.appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 1000);
+        }
+
+        // Add CSS for trail particles
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes trailFade {
+                0% { opacity: 1; transform: scale(1); }
+                100% { opacity: 0; transform: scale(0.3) translateY(-20px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Stagger card animations on load
+        document.addEventListener('DOMContentLoaded', function () {
+            const cards = document.querySelectorAll('.showtime-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+
+</html>

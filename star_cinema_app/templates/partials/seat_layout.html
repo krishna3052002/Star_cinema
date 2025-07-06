@@ -1,0 +1,36 @@
+<form method="POST" action="{% url 'confirm_booking' %}">
+    {% csrf_token %}
+    <input type="hidden" name="show_id" value="{{ show.id }}">
+    
+    <div class="row">
+        <!-- Seat Grid -->
+        <div class="col-md-8">
+            <div class="seats-grid">
+                {% for seat in seats %}
+                    <label class="seat {% if seat.id in booked_seats %}booked{% endif %}">
+                        {% if seat.id not in booked_seats %}
+                            <input type="checkbox" name="seats" value="{{ seat.id }}" style="display:none;">
+                        {% endif %}
+                        {{ seat.seat_number }}
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Booking Summary -->
+        <div class="col-md-4">
+            <h5 class="text-center mb-3">🎫 Booking Info</h5>
+            <div class="form-group">
+                <label>Your Name:</label>
+                <input type="text" name="customer_name" required class="form-control">
+            </div>
+            <div class="form-group">
+                <label>Phone Number:</label>
+                <input type="text" name="phone_number" required class="form-control">
+            </div>
+            <div id="summary" class="text-info mt-2"></div>
+
+            <button type="submit" class="btn btn-success mt-3 w-100">Purchase Ticket</button>
+        </div>
+    </div>
+</form>

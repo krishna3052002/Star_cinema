@@ -5,105 +5,354 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Star Cinema</title>
+    <title>Star Cinema - Premium Movie Experience</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <style>
-        body {
-            background-color: #121212;
-            color: #f1f1f1;
+        :root {
+            --primary-color: #00bfff;
+            --secondary-color: #ff00ff;
+            --dark-bg: #121212;
+            --card-bg: #1e1e1e;
+            --text-primary: #f1f1f1;
+            --text-secondary: #aaa;
+            --dark-blue: #302454;
+            --right-color: #ac0ef0;
+            --left-color: #7025bcd7;
         }
 
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Navbar Styles */
         .navbar {
-            background-color: #1e1e1e;
+            background: linear-gradient(to right, var(--left-color), var(--dark-blue));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            margin-bottom: 50rem;
+        }
+
+        .nav2 {
+            background: linear-gradient(to right, var(--dark-blue), var(--right-color));
+        }
+
+        .navbar.scrolled {
+            padding: 0.5rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
 
         .navbar-light .navbar-brand,
         .navbar-light .nav-link,
         .navbar-light .form-control {
-            color: #f1f1f1;
+            color: var(--text-primary);
         }
 
         .navbar-dark .nav-link {
-            color: #f1f1f1 !important;
+            color: var(--text-primary) !important;
         }
 
         .form-control,
         .form-select {
             background-color: #2a2a2a;
-            color: #f1f1f1;
+            color: var(--text-primary);
             border: 1px solid #444;
         }
 
         .form-control::placeholder {
-            color: #aaa;
+            color: var(--text-secondary);
         }
 
-        .carousel-inner img {
-            height: 500px;
-            object-fit: cover;
-        }
-
-        .carousel-caption {
-            background-color: rgba(0, 0, 0, 0.6);
-            border-radius: 10px;
-        }
-
-        .card {
-            background-color: #1e1e1e;
+        /* Enhanced Movie Card Styles */
+        .movie-card {
+            background: linear-gradient(145deg, var(--card-bg), #252525);
             border: none;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border-radius: 15px;
-            color: #f1f1f1;
+            color: var(--text-primary);
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            animation: fadeInUp 0.8s ease-out;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+        #movies {
+            margin-top: 150px;
         }
 
-        .card-img-top {
-            height: 300px;
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .movie-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 191, 255, 0.3);
+        }
+
+        .movie-card .card-img-top {
+            height: 380px;
             object-fit: cover;
             border-top-left-radius: 15px;
             border-top-right-radius: 15px;
+            transition: transform 0.5s ease;
         }
 
-        footer {
-            background-color: #1e1e1e;
+        .movie-card:hover .card-img-top {
+            transform: scale(1.05);
         }
 
-        .btn-outline-primary {
-            color: #00bfff;
-            border-color: #00bfff;
+        .movie-card .card-body {
+            position: relative;
+            z-index: 1;
+            background: rgba(30, 30, 30, 0.9);
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            padding: 1.5rem;
         }
 
-        .btn-outline-primary:hover {
-            background-color: #00bfff;
+        .movie-card .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #fff;
+            transition: color 0.3s;
+        }
+
+        .movie-card:hover .card-title {
+            color: var(--primary-color);
+            text-shadow: 0 0 10px rgba(0, 191, 255, 0.3);
+        }
+
+        .movie-card .card-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .movie-card .card-badge {
+            position: absolute;
+            top: -15px;
+            right: 15px;
+            background: var(--primary-color);
             color: #000;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.4);
+            z-index: 2;
+            animation: pulse 2s infinite;
         }
 
-        .btn-success {
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .movie-card .btn-outline-primary {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 500;
+            transition: all 0.3s;
+            border-radius: 30px;
+            padding: 0.5rem 1.25rem;
+            letter-spacing: 0.5px;
+        }
+
+        .movie-card .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            color: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 191, 255, 0.4);
+        }
+
+        .movie-card .btn-success {
             background-color: #28a745;
             border: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            border-radius: 30px;
+            padding: 0.5rem 1.25rem;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+            letter-spacing: 0.5px;
         }
 
-        .btn-success:hover {
+        .movie-card .btn-success:hover {
             background-color: #218838;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(40, 167, 69, 0.5);
         }
 
-        .dropdown-menu .dropdown-item {
-            background-color: #1e1e1e;
-            color: #f1f1f1;
-            transition: background-color 0.3s;
+        .movie-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 60%, rgba(0, 0, 0, 0.8) 90%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1;
+            border-radius: 15px;
         }
 
-        .dropdown-menu .dropdown-item:hover {
-            background-color: #2a2a2a;
+        .movie-card:hover::before {
+            opacity: 1;
         }
+
+        /* Section Styling */
+        section {
+            padding: 5rem 0;
+            position: relative;
+        }
+
+        .section-header {
+            position: relative;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .section-header h2 {
+            display: inline-block;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            padding-bottom: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            border-radius: 3px;
+        }
+
+        .section-header p.subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Trending Carousel Enhancements */
+        #trending {
+            padding-bottom: 5rem;
+            margin-bottom: 0;
+        }
+
+        .trending-header {
+            margin-bottom: 1rem;
+        }
+
+        .trending-header h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .trending-header p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        #trendingCarousel {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            margin-bottom: 4rem;
+        }
+
+        .carousel-indicators [data-bs-target] {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin: 0 8px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.3s;
+        }
+
+        .carousel-indicators .active {
+            background-color: var(--primary-color);
+            transform: scale(1.2);
+            border-color: var(--primary-color);
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(0, 191, 255, 0.3);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        #trendingCarousel:hover .carousel-control-prev,
+        #trendingCarousel:hover .carousel-control-next {
+            opacity: 1;
+        }
+
+        .carousel-caption {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 3rem;
+            text-align: left;
+        }
+
+        /* Background Video Styles */
         .bg-video {
             position: fixed;
             top: 0;
@@ -113,6 +362,7 @@
             object-fit: cover;
             z-index: -2;
             pointer-events: none;
+            opacity: 0.7;
         }
 
         .video-overlay {
@@ -121,13 +371,338 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: linear-gradient(to bottom right, rgba(75, 0, 130, 0.6), rgba(46, 0, 62, 0.6));
+            background: linear-gradient(to bottom right, rgba(10, 25, 47, 0.9), rgba(46, 0, 62, 0.7));
             z-index: -1;
         }
 
         .content-wrapper {
             position: relative;
             z-index: 2;
+        }
+
+        /* Logo Styles */
+        .logo {
+            height: 4em;
+            width: 15%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .logo>img {
+            width: 80%;
+            height: auto;
+            transition: all 0.3s;
+        }
+
+        .navbar.scrolled .logo>img {
+            width: 70%;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: rgba(10, 25, 47, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 3;
+            padding: 4rem 0 2rem;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+        }
+
+        footer h5 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+        }
+
+        footer h5::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--secondary-color);
+        }
+
+        footer ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        footer ul li a {
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        footer ul li a:hover {
+            color: var(--primary-color) !important;
+            transform: translateX(5px);
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: var(--primary-color);
+            color: #000 !important;
+            transform: translateY(-5px);
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e1e1e;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--primary-color), var(--secondary-color));
+            border-radius: 10px;
+        }
+
+        /* Mobile Responsive Adjustments */
+        @media (max-width: 1199.98px) {
+            .movie-card .card-img-top {
+                height: 340px;
+            }
+        }
+
+        @media (max-width: 991.98px) {
+            .navbar-nav {
+                padding-top: 1rem;
+            }
+            
+            .logo {
+                width: 25%;
+            }
+            
+            .movie-card .card-img-top {
+                height: 300px;
+            }
+            
+            .section-header h2 {
+                font-size: 2.2rem;
+            }
+            
+            .trending-header h2 {
+                font-size: 2.4rem;
+            }
+            
+            .carousel-caption {
+                padding: 2rem;
+            }
+            
+            .carousel-caption h3 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .navbar {
+                padding: 0.5rem 0;
+            }
+            
+            .nav2 {
+                top: 46px;
+            }
+            
+            .logo {
+                width: 35%;
+                height: 3em;
+            }
+            
+            .logo>img {
+                width: 90%;
+            }
+            
+            .navbar.scrolled .logo>img {
+                width: 80%;
+            }
+            
+            #movies {
+                margin-top: 120px;
+            }
+            
+            .movie-card .card-img-top {
+                height: 260px;
+            }
+            
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .trending-header h2 {
+                font-size: 2rem;
+            }
+            
+            .trending-header p,
+            .section-header p.subtitle {
+                font-size: 1rem;
+            }
+            
+            #trendingCarousel {
+                margin-bottom: 2rem;
+            }
+            
+            .carousel-caption {
+                padding: 1.5rem;
+            }
+            
+            .carousel-caption h3 {
+                font-size: 1.8rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .carousel-caption p {
+                font-size: 0.9rem;
+                margin-bottom: 1rem;
+            }
+            
+            .carousel-caption .btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            section {
+                padding: 3rem 0;
+            }
+            
+            footer {
+                padding: 3rem 0 1.5rem;
+            }
+            
+            footer h5 {
+                font-size: 1.1rem;
+                margin-bottom: 1rem;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .logo {
+                width: 45%;
+            }
+            
+            .navbar-toggler {
+                padding: 0.25rem 0.5rem;
+                font-size: 1rem;
+            }
+            
+            .movie-card .card-img-top {
+                height: 220px;
+            }
+            
+            .section-header h2 {
+                font-size: 1.6rem;
+            }
+            
+            .trending-header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .carousel-caption {
+                padding: 1rem;
+            }
+            
+            .carousel-caption h3 {
+                font-size: 1.5rem;
+            }
+            
+            .carousel-caption .btn {
+                display: block;
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+            
+            .carousel-caption .btn + .btn {
+                margin-left: 0;
+            }
+            
+            .movie-card .card-title {
+                font-size: 1.1rem;
+            }
+            
+            .movie-card .card-text {
+                font-size: 0.85rem;
+                margin-bottom: 1rem;
+            }
+            
+            .movie-card .btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+            
+            footer .col-md-6 {
+                margin-bottom: 2rem;
+            }
+            
+            .social-icons a {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+            }
+            
+            .content-wrapper {
+                padding-top: 90px;
+            }
+            
+            .nav2 {
+                top: 46px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .logo {
+                width: 50%;
+            }
+            
+            .movie-card .card-img-top {
+                height: 200px;
+            }
+            
+            .section-header h2 {
+                font-size: 1.4rem;
+            }
+            
+            .trending-header h2 {
+                font-size: 1.6rem;
+            }
+            
+            .movie-card .card-title {
+                font-size: 1rem;
+            }
+            
+            .movie-card .card-text {
+                font-size: 0.8rem;
+            }
+            
+            .movie-card .btn {
+                padding: 0.3rem 0.7rem;
+                font-size: 0.75rem;
+            }
         }
     </style>
 </head>
@@ -138,133 +713,359 @@
         <source src="{% static 'videos/login_background.mp4' %}" type="video/mp4">
         Your browser does not support HTML5 video.
     </video>
+    <div class="video-overlay"></div>
+
     <!-- Top Navbar -->
-    <nav class="navbar navbar-expand-lg" style="background-color: rgb(10, 25, 47);">
+    <nav class="navbar navbar-expand-lg fixed-top mb-5" id="mainNavbar">
         <div class="container">
-            <a class="navbar-brand text-white" href="#">🎬 Star Cinema</a>
-            <form class="d-flex ms-auto">
-                <input class="form-control me-2" type="search" placeholder="Search Movies" aria-label="Search">
-                <button class="btn btn-outline-primary" type="submit">Search</button>
-            </form>
+            <div class="logo">
+                <img src="/static/images/star_cinema.png" class="img-fluid" alt="Star Cinema Logo">
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSearch">
+                <i class="bi bi-search text-white"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSearch">
+                <form class="d-flex ms-auto" method="get" action="{% url 'home' %}">
+                    <div class="input-group">
+                        <input class="form-control" type="search" name="q" placeholder="Search Movies..."
+                            aria-label="Search" value="{{ request.GET.q }}">
+                        <button class="btn btn-outline-primary" type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </nav>
 
     <!-- Secondary Navbar -->
-    <nav class="navbar navbar-expand-lg" style="background-color: rgb(10, 25, 47);">
+    <nav class="navbar nav2 navbar-expand-lg fixed-top mt-3"
+        style="top: 56px; background-color: rgba(10, 25, 47, 0.95);" id="secondaryNavbar">
         <div class="container">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link text-white" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="#">Showtimes</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="#">About Us</a></li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white fw-bold" href="#" id="profileDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        👤 {{ request.session.customer_name|default:"Profile" }}
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSecondary">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSecondary">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link text-white active" href="#"><i
+                                class="bi bi-house-door me-1"></i> Home</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{% url 'showtimes' %}">
+                            <i class="bi bi-calendar3 me-1"></i> Showtimes
+                        </a>
+                    </li>
 
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end shadow-lg animate__animated animate__fadeIn"
-                        aria-labelledby="profileDropdown"
-                        style="background-color: rgb(30, 30, 60); border-radius: 12px; overflow: hidden;">
-                        <li>
-                            <a class="dropdown-item text-info fw-bold" href="#">
-                                <i class="bi bi-person-circle me-2"></i> {{ request.session.customer_name }}
+                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'about' %}"><i
+                                class="bi bi-info-circle me-1"></i> About Us</a></li>
 
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item text-white" href="#">
-                                <i class="bi bi-ticket-detailed me-2"></i> Booked Tickets
-                            </a>
-                        </li>
-                        <li><hr class="dropdown-divider" style="border-color: #555;"></li>
-                        <li>
-                            <a class="dropdown-item text-danger" href="{% url 'logout' %}">
-                                <i class="bi bi-box-arrow-right me-2"></i> Logout
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            
-            </ul>
-            <form class="d-flex" method="get" action="{% url 'home' %}">
-                <select class="form-select me-2" name="theater_id" onchange="this.form.submit()">
-                    <option value="">All Theaters</option>
-                    {% for theater in theaters %}
-                        <option value="{{ theater.0 }}" 
-                            {% if theater.0 == request.GET.theater_id %}selected{% endif %}>
-                            {{ theater.1 }}
-                        </option>
-                    {% endfor %}
-                </select>
-                
-            </form>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white fw-bold" href="#" id="profileDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle me-1"></i> {{ request.session.customer_name|default:"Profile" }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-lg animate__animated animate__fadeIn"
+                            aria-labelledby="profileDropdown"
+                            style="background-color: rgba(30, 30, 60, 0.95); border-radius: 12px; overflow: hidden; backdrop-filter: blur(10px);">
+                            <li>
+                                <a class="dropdown-item text-info fw-bold" href="#">
+                                    <i class="bi bi-person-circle me-2"></i> {{ request.session.customer_name }}
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-white" href="{% url 'booked_tickets' %}">
+                                    <i class="bi bi-ticket-detailed me-2"></i> Booked Tickets
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider" style="border-color: #555;">
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-danger" href="{% url 'logout' %}">
+                                    <i class="bi bi-box-arrow-right me-2"></i> Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex" method="get" action="{% url 'home' %}">
+                    <select class="form-select me-2" name="theater_id" onchange="this.form.submit()">
+                        <option value="">All Theaters</option>
+                        {% for theater in theaters %}
+                        {% if theater.0|stringformat:"s" == request.GET.theater_id|stringformat:"s" %}
+                        <option value="{{ theater.0 }}" selected>{{ theater.1 }}</option>
+                        {% else %}
+                        <option value="{{ theater.0 }}">{{ theater.1 }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
         </div>
     </nav>
 
+    <!-- Main Content -->
+    <div class="content-wrapper mt-5" style="padding-top: 112px;">
 
-    <!-- Trending Carousel -->
-    <!-- Trending Movies Carousel -->
-    <!-- Trending Movies Carousel -->
-    <h3 class="text-center text-white mb-3">🔥Trending</h3>
-    <section id="trending" class="my-4">
-        <div id="trendingCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
-            <div class="carousel-inner">
-                {% for slide in slides %}
-                <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                    <img src="{{ slide.image.url }}" class="d-block w-100" alt="Slide Image" style="height: 500px; object-fit: cover;">
+        <!-- Trending Movies Carousel - Enhanced Version -->
+        <section id="trending">
+            <div class="container">
+                <div class="trending-header text-center animate__animated animate__fadeIn">
+                    <h2>Trending Now</h2>
+                    <p>Experience the latest blockbusters on the big screen</p>
                 </div>
-                {% endfor %}
+
+                <div id="trendingCarousel" class="carousel slide carousel-fade mt-0 pt-0" data-bs-ride="carousel"
+                    data-bs-interval="5000">
+                    <div class="carousel-inner rounded-3 overflow-hidden">
+                        {% for slide in slides %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %} position-relative">
+                            <img src="{{ slide.image.url }}" class="d-block w-100"
+                                alt="{{ slide.movie_title|default:'Movie Slide' }}"
+                                style="height: 600px; object-fit: cover;">
+
+                            <!-- Overlay with gradient and movie info -->
+                            <div class="carousel-caption">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <h3 class="display-4 fw-bold text-white mb-3 animate__animated animate__fadeInDown">
+                                                {{ slide.movie_title|default:"Blockbuster Movie" }}
+                                            </h3>
+                                            <p class="text-white-50 mb-4 animate__animated animate__fadeIn animate__delay-1s">
+                                                {{ slide.movie_description|default:"Experience the cinematic masterpiece
+                                                of the year" }}
+                                            </p>
+                                            <div class="d-flex gap-3 mb-4 animate__animated animate__fadeIn animate__delay-2s">
+                                                <span class="badge bg-danger me-2 p-2">IMDb {{
+                                                    slide.rating|default:"8.5" }}/10</span>
+                                                <span class="badge bg-primary me-2 p-2">{{ slide.genre|default:"Action"
+                                                    }}</span>
+                                                <span class="badge bg-warning text-dark p-2">{{
+                                                    slide.year|default:"2023" }}</span>
+                                            </div>
+                                            <div class="animate__animated animate__fadeIn animate__delay-3s">
+                                                <a href="#" class="btn btn-danger btn-lg me-3 px-4">
+                                                    <i class="bi bi-ticket-perforated me-2"></i> Book Now
+                                                </a>
+                                                <a href="#" class="btn btn-outline-light btn-lg px-4">
+                                                    <i class="bi bi-info-circle me-2"></i> Details
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Carousel indicators -->
+                    <div class="carousel-indicators">
+                        {% for slide in slides %}
+                        <button type="button" data-bs-target="#trendingCarousel"
+                            data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"
+                            aria-current="{% if forloop.first %}true{% endif %}"
+                            aria-label="Slide {{ forloop.counter }}">
+                        </button>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Custom arrow controls -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#trendingCarousel"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#trendingCarousel"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#trendingCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#trendingCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            </button>
-        </div>
-    </section>
-    
-    
+        </section>
 
-
-
-    <!-- Movie Cards Section -->
-    <section id="movies" class="my-5">
-        <h3 class="text-center mb-4">🎥 Available Movies</h3>
-        <div class="container">
-            <div class="row">
-                {% for movie in movies %}
-                <div class="col-md-3 mb-4">
-                    <div class="card h-100 bg-dark text-white shadow-sm">
-                        
-                        <img src="{{ MEDIA_URL }}{{ movie.3 }}" class="card-img-top" alt="{{ movie.1 }}">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">{{ movie.1 }}</h5>
-                            <p class="card-text">{{ movie.2 }}</p>
-                            <div class="mt-auto d-flex justify-content-between">
-                                <a href="{% url 'movie_detail' movie.0 %}" class="btn btn-outline-primary btn-sm">View
-                                    Details</a>
-                                    <a href="{% url 'book_movie' movie.0 %}" class="btn btn-success btn-sm">Book Now</a>
+        <!-- Enhanced Movie Cards Section -->
+        <section id="movies" class="pt-4">
+            <div class="container">
+                <div class="section-header animate__animated animate__fadeIn">
+                    <h2>Now Showing</h2>
+                    <p class="subtitle">Book your tickets for these amazing movies</p>
+                </div>
+                <div class="row g-4">
+                    {% for movie in movies %}
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                        <div class="movie-card h-100 animate__animated animate__fadeIn"
+                            style="animation-delay: {{ forloop.counter0|divisibleby:4|yesno:'0,0.1,0.2,0.3' }}s">
+                            <div class="position-relative overflow-hidden">
+                                <img src="{{ MEDIA_URL }}{{ movie.3 }}" class="card-img-top" alt="{{ movie.1 }}">
+                                <span class="card-badge">NEW</span>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ movie.1 }}</h5>
+                                <p class="card-text">{{ movie.2 }}</p>
+                                <div class="d-flex justify-content-between mt-auto">
+                                    <a href="{% url 'movie_detail' movie.0 %}" class="btn btn-outline-primary btn-sm">
+                                        <i class="bi bi-info-circle"></i> Details
+                                    </a>
+                                    <a href="{% url 'book_movie' movie.0 %}" class="btn btn-success btn-sm">
+                                        <i class="bi bi-ticket-perforated"></i> Book Now
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    {% empty %}
+                    <div class="col-12 text-center">
+                        <div class="alert alert-dark animate__animated animate__fadeIn" role="alert"
+                            style="background: rgba(30, 30, 30, 0.8); border: none;">
+                            <i class="bi bi-film" style="font-size: 3rem; color: var(--primary-color);"></i>
+                            <h4 class="mt-3">No movies available at the moment</h4>
+                            <p class="mb-0">Check back later for exciting new releases!</p>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% empty %}
-                <p class="text-center">No movies available.</p>
-                {% endfor %}
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
-    <footer class="text-white text-center py-3" style="background-color: rgb(10, 25, 47);">
-        <p>&copy; 2025 Star Cinema. All rights reserved.</p>
-    </footer>
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <!-- Company Info -->
+                    <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
+                        <h5>🎬 StarCinema</h5>
+                        <p class="mt-3">Your premium destination for booking movie tickets online. Experience the magic
+                            of cinema with the latest blockbusters in the comfort of our state-of-the-art theaters.</p>
+                        <div class="mt-4">
+                            <img src="/static/images/star_cinema.png"
+                                style="width: 150px; filter: brightness(0) invert(1); opacity: 0.8;"
+                                alt="Star Cinema Logo">
+                        </div>
+                    </div>
 
+                    <!-- Quick Links -->
+                    <div class="col-lg-2 col-md-6 mb-5 mb-md-0">
+                        <h5>Quick Links</h5>
+                        <ul class="list-unstyled mt-3">
+                            <li><a href="#" class="text-decoration-none text-white-50">Home</a></li>
+                            <li><a href="#" class="text-decoration-none text-white-50">Movies</a></li>
+                            <li><a href="#" class="text-decoration-none text-white-50">Showtimes</a></li>
+                            <li><a href="#" class="text-decoration-none text-white-50">Promotions</a></li>
+                            <li><a href="#" class="text-decoration-none text-white-50">About Us</a></li>
+                            <li><a href="#" class="text-decoration-none text-white-50">Contact</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div class="col-lg-3 col-md-6 mb-5 mb-md-0">
+                        <h5>Contact Us</h5>
+                        <ul class="list-unstyled mt-3">
+                            <li class="mb-3"><i class="bi bi-geo-alt-fill me-2 text-primary"></i> 123 Movie Blvd, Film
+                                City, CA 90001</li>
+                            <li class="mb-3"><i class="bi bi-telephone-fill me-2 text-primary"></i> +1 (800) 123-4567
+                            </li>
+                            <li class="mb-3"><i class="bi bi-envelope-fill me-2 text-primary"></i>
+                                support@starcinema.com</li>
+                            <li><i class="bi bi-clock-fill me-2 text-primary"></i> Open 9:00 AM - 11:00 PM</li>
+                        </ul>
+                    </div>
+
+                    <!-- Newsletter -->
+                    <div class="col-lg-3 col-md-6">
+                        <h5>Newsletter</h5>
+                        <p class="text-white-50 mt-3">Subscribe to get updates on new releases and special offers.</p>
+                        <form class="mt-3">
+                            <div class="input-group mb-3">
+                                <input type="email" class="form-control" placeholder="Your Email"
+                                    aria-label="Your Email">
+                                <button class="btn btn-primary" type="button">Subscribe</button>
+                            </div>
+                        </form>
+                        <h6 class="mt-4 mb-3">Follow Us</h6>
+                        <div class="social-icons">
+                            <a href="#" class="text-white me-2"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="text-white me-2"><i class="bi bi-twitter"></i></a>
+                            <a href="#" class="text-white me-2"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="text-white"><i class="bi bi-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <hr style="border-color: rgba(255, 255, 255, 0.1); margin: 3rem 0;">
+
+                <div class="text-center text-white-50">
+                    <p class="mb-0">&copy; 2025 StarCinema. All rights reserved. | Designed with <i
+                            class="bi bi-heart-fill text-danger"></i> by the StarCinema Team</p>
+                </div>
+            </div>
+        </footer>
+    </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function () {
+            const navbar = document.getElementById('mainNavbar');
+            const secondaryNav = document.getElementById('secondaryNavbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+                secondaryNav.style.top = '46px';
+            } else {
+                navbar.classList.remove('scrolled');
+                secondaryNav.style.top = '56px';
+            }
+        });
+
+        // Movie card hover effects
+        document.addEventListener('DOMContentLoaded', function () {
+            const movieCards = document.querySelectorAll('.movie-card');
+
+            movieCards.forEach(card => {
+                card.addEventListener('mouseenter', function () {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                    this.style.boxShadow = '0 15px 35px rgba(0, 191, 255, 0.3)';
+                });
+
+                card.addEventListener('mouseleave', function () {
+                    this.style.transform = '';
+                    this.style.boxShadow = '';
+                });
+            });
+
+            // Initialize animations when elements come into view
+            const animateOnScroll = function () {
+                const elements = document.querySelectorAll('.animate__animated');
+
+                elements.forEach(element => {
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+
+                    if (elementPosition < windowHeight - 100) {
+                        const animationClass = element.classList.item(1);
+                        element.classList.add(animationClass);
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', animateOnScroll);
+            animateOnScroll(); // Run once on page load
+            
+            // Handle mobile dropdowns
+            const navToggler = document.querySelector('.navbar-toggler');
+            if (navToggler) {
+                navToggler.addEventListener('click', function() {
+                    const target = this.getAttribute('data-bs-target');
+                    const targetElement = document.querySelector(target);
+                    targetElement.classList.toggle('show');
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

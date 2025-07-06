@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: sans-serif; padding: 30px; }
+        h2 { text-align: center; color: #5c0dab; }
+        .section { margin-bottom: 15px; }
+        .label { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h2>🎟 Star Cinema Ticket</h2>
+    <div class="section"><span class="label">Customer:</span> {{ customer_name }}</div>
+    <div class="section"><span class="label">Phone:</span> {{ phone }}</div>
+    <div class="section"><span class="label">Movie:</span> {{ show.movie.title }}</div>
+    <div class="section"><span class="label">Theater:</span> {{ show.theater.name }}</div>
+    <div class="section"><span class="label">Date:</span> {{ show.show_date }} {{ show.show_time }}</div>
+    <div class="section"><span class="label">Seats:</span>
+        {% for seat in seats %}
+            {{ seat.seat_number }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </div>
+    <div class="section"><span class="label">Booking Time:</span> {{ booking_time }}</div>
+    <hr>
+    <div style="text-align:center;">Thank you for booking with Star Cinema!</div>
+</body>
+</html>
