@@ -398,23 +398,24 @@ def booked_tickets(request):
 
     with connection.cursor() as cursor:
         cursor.execute("""
-            SELECT 
-                b.id,
-                m.title,
-                t.name AS theater_name,
-                s.show_time,
-                b.booking_time,
-                GROUP_CONCAT(seat.seat_number ORDER BY seat.seat_number) AS seats
-            FROM star_cinema_app_booking AS b
-            JOIN star_cinema_app_show_table AS s ON b.show_id = s.id
-            JOIN star_cinema_app_movie AS m ON s.movie_id = m.id
-            JOIN star_cinema_app_theater AS t ON s.theater_id = t.id
-            JOIN star_cinema_app_bookingseat AS bs ON b.id = bs.booking_id
-            JOIN star_cinema_app_seat AS seat ON bs.seat_id = seat.id
-            WHERE b.customer_id = %s
-            GROUP BY b.id, m.title, t.name, s.show_time, b.booking_time
-            ORDER BY b.booking_time DESC
-        """, [customer_id])
+    SELECT 
+        b.id,
+        m.title,
+        t.name AS theater_name,
+        s.show_time,
+        b.booking_time,
+        STRING_AGG(seat.seat_number, ', ' ORDER BY seat.seat_number) AS seats
+    FROM star_cinema_app_booking AS b
+    JOIN star_cinema_app_show_table AS s ON b.show_id = s.id
+    JOIN star_cinema_app_movie AS m ON s.movie_id = m.id
+    JOIN star_cinema_app_theater AS t ON s.theater_id = t.id
+    JOIN star_cinema_app_bookingseat AS bs ON b.id = bs.booking_id
+    JOIN star_cinema_app_seat AS seat ON bs.seat_id = seat.id
+    WHERE b.customer_id = %s
+    GROUP BY b.id, m.title, t.name, s.show_time, b.booking_time
+    ORDER BY b.booking_time DESC
+""", [customer_id])
+
 
         bookings = cursor.fetchall()
 
