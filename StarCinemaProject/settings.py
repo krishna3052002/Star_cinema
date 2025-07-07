@@ -18,7 +18,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'star_cinema_app',
+    'cloudinary',
+    'cloudinary_storage',
 ]
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 
 # ✅ Middleware
 MIDDLEWARE = [
@@ -94,8 +99,15 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # ✅ Media Files (for uploaded images)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default PK type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dyudlsi2v',
+    'API_KEY': '682369582911734',
+    'API_SECRET': '71Ga4Sfn2NV4XiFtQhaKnS4AbdM',
+}
